@@ -3,13 +3,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 
 import java.util.List;
 
 @Entity
 @Table(name = "course")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class Course {
 
     @Id
@@ -32,12 +33,4 @@ public class Course {
         this.professor = professor;
     }
 
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", courseName='" + courseName + '\'' +
-                ", professor=" + professor +
-                '}';
-    }
 }

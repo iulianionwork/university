@@ -5,10 +5,11 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "professor")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class Professor {
 
     @Id
@@ -33,11 +34,10 @@ public class Professor {
     @OneToMany(mappedBy = "professor")
     private List<Course> courses;
 
-    public Professor(String firstName, String lastName, String email, String department) {
+    public Professor(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.department = department;
     }
 
 

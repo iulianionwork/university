@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Getter;
+import lombok.ToString;
+
 import java.util.Date;
 
 @Entity
 @Table(name = "carnet")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class Carnet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

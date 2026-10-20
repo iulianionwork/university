@@ -5,12 +5,13 @@ import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
 @Entity
 @Table(name = "student")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class Student {
 
     @Id
@@ -46,16 +47,4 @@ public class Student {
         this.firstName = firstName;
     }
 
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", group=" + group +
-                ", courses=" + courses +
-                '}';
-    }
 }

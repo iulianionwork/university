@@ -3,11 +3,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+
 import java.util.List;
 
 @Entity
 @Table(name = "\"group\"")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

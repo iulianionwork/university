@@ -1,12 +1,10 @@
 package university.model.service;
 
-import university.controller.dto.UserDTO;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-import university.model.entity.User;
+public interface UserService extends UserDetailsService {
 
-public interface UserService {
 
-    User registerUser(UserDTO userDTO);
-    void deleteUser(String username);
-    void updateUser(UserDTO userDTO);
+    UserDetails loadUserByUsername(String username);
 }

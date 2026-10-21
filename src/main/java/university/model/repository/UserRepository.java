@@ -1,13 +1,14 @@
 package university.model.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import university.model.entity.User;
+import org.springframework.stereotype.Repository;
+import university.model.entity.UserCredentials;
 
 import java.util.Optional;
 
-public interface UserRepository  extends JpaRepository<User, Long> {
+@Repository
+public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
 
-    Optional<User> findByUsername(String username);
-    User getUsersById(Long userId);
-
+    Optional<UserCredentials> findByUsername(String username);
+    UserCredentials getUsersById(Long userId);
 }

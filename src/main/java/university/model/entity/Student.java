@@ -36,8 +36,8 @@ public class Student {
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "student_course", joinColumns = {
-            @JoinColumn(name = "student_id", nullable = false, updatable = false)},
-            inverseJoinColumns = { @JoinColumn(name = "course_id",nullable = false,updatable = false)}
+            @JoinColumn(name = "student_id", nullable = false)},
+            inverseJoinColumns = { @JoinColumn(name = "course_id",nullable = false)}
     )
     private List<Course> courses;
 

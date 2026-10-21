@@ -1,7 +1,11 @@
 package university.model.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,57 +13,32 @@ import university.controller.dto.UserDTO;
 import university.model.entity.Professor;
 import university.model.entity.Role;
 import university.model.entity.Student;
-import university.model.entity.User;
+import university.model.entity.UserCredentials;
 import university.model.repository.UserRepository;
+
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class UserServiceImp implements UserService {
 
+    @Autowired
     private final UserRepository userRepository;
 
 
-
     @Override
-    @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
-    public User registerUser(UserDTO userDTO) {
-            User user = new User(userDTO.getUsername(), new BCryptPasswordEncoder().encode(userDTO.getPassword()), userDTO.getRole());
-            userRepository.save(user);
-            Long id = user.getId();
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-            if(userDTO.getRole().equals(Role.STUDENT)) {
-                Student student = new Student(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail());
-                student.setId(id);
-                user.setStudent(student);
-            }else if(userDTO.getRole().equals(Role.PROFESSOR)) {
-                Professor professor = new Professor(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail());
-                professor.setId(id);
-                user.setProfessor(professor);
-            }
-            userRepository.save(user);
-            return user;
-    }
-
-    @Override
-    @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
-    public void deleteUser(String username) {
-        User user = userRepository.findByUsername(username)
-                        .orElseThrow(() -> new RuntimeException("User not found"));
-
-        userRepository.delete(user);
-    }
-
-    @Override
-    @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
-    public void updateUser(UserDTO  userDTO) {
-        User user =  userRepository.findByUsername(userDTO.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        user.setRole(userDTO.getRole());
-        user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
-
-        userRepository.save(user);
+        Optional<UserCredentials> user = userRepository.findByUsername(username);
+        if (user.isPresent()) {
+            var userCredentials = user.get();
+            return User.builder()
+                    .username(userCredentials.getUsername())
+                    .password(userCredentials.getPassword())
+                    .roles(userCredentials.getRole().toString())
+                    .build();
+        } else {
+            throw new UsernameNotFoundException("User not found");
+        }
     }
 }

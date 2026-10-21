@@ -25,7 +25,7 @@ public class ProfessorServiceImp implements ProfessorService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public Professor create(CreateProfessorRequest request){
 
         if(userRepository.existsByEmail(request.getEmail())){
@@ -35,12 +35,12 @@ public class ProfessorServiceImp implements ProfessorService {
         Professor professor = new Professor(request.getFirstName(), request.getLastName(),  request.getDepartment());
         professorRepository.save(professor);
 
-        UserCredentials studentUser = new UserCredentials();
-        studentUser.setEmail(request.getEmail());
-        studentUser.setPassword(passwordEncoder.encode(request.getPassword()));
-        studentUser.setRole(Role.PROFESSOR);
-        studentUser.setProfessor(professor);
-        userRepository.save(studentUser);
+        UserCredentials professorUser = new UserCredentials();
+        professorUser.setEmail(request.getEmail());
+        professorUser.setPassword(passwordEncoder.encode(request.getPassword()));
+        professorUser.setRole(Role.PROFESSOR);
+        professorUser.setProfessor(professor);
+        userRepository.save(professorUser);
         return professor;
     }
 }

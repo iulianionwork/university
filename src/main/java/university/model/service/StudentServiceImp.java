@@ -22,7 +22,7 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public Student create(CreateStudentRequest request){
 
         if(userRepository.existsByEmail(request.getEmail())){

@@ -4,13 +4,12 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "carnet")
-@Getter @Setter @NoArgsConstructor @ToString
+@Getter @Setter @NoArgsConstructor
 public class Carnet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +19,7 @@ public class Carnet {
     @Column(name = "issue_date", nullable = false)
     private Date issueDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch =  FetchType.EAGER)
     @JoinColumn(name = "student")
     private Student student;
 

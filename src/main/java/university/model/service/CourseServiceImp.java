@@ -118,15 +118,9 @@ public class CourseServiceImp implements CourseService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<Course> getCoursesOfProfessor(Long userId) {
-        Professor professor = userRepository.getUsersById(userId)
-                .getProfessor();
+    public List<Course> getCoursesOfProfessor() {
 
-        if(professor == null){
-            throw new RuntimeException("User is not professor!");
-        }
-
-        return professor.getCourses();
+        return List.of();
     }
 
     @Override
@@ -141,11 +135,10 @@ public class CourseServiceImp implements CourseService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<Course> getCoursesOfStudent(Long userId) {
-        Student student = userRepository.getUsersById(userId)
-                .getStudent();
+    public List<Course> getCoursesOfStudent() {
 
-        return student.getCourses();
+
+        return List.of();
     }
 
 

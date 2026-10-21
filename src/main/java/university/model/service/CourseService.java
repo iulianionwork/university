@@ -17,7 +17,7 @@ public interface CourseService {
     void enrollStudentToCourse(Long courseId, Long studentId);
     void unenrollStudentToCourse(Long courseId, Long studentId);
     void deleteCourse(Long id);
-    List<Course> getCoursesOfProfessor(Long userId);
+    List<Course> getCoursesOfProfessor();
     List<Student> getStudentsByCourseId(Long courseId);
-    List<Course> getCoursesOfStudent(Long userId);
+    List<Course> getCoursesOfStudent();
 }

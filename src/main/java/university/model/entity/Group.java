@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "\"group\"")
-@Getter @Setter @NoArgsConstructor @ToString
+@Getter @Setter @NoArgsConstructor
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class Group {
     @Column(name = "group_name", nullable = false)
     private String groupName;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<Student> students;
 
     public Group(String groupName) {

@@ -4,12 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -47,16 +45,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.formLogin(httpSecurityFormLoginConfigurer -> {
-            httpSecurityFormLoginConfigurer.loginPage("/login").permitAll();
-            httpSecurityFormLoginConfigurer.successForwardUrl("/home");
+        http.formLogin( form-> {
+            form.loginPage("/login");
+            form.usernameParameter("email");
+            form.defaultSuccessUrl("/home");
                 })
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizeRequests -> {
-                    authorizeRequests.requestMatchers("/admin/**").hasRole("ADMIN");
-                    authorizeRequests.requestMatchers("/professor/**").hasRole("PROFESSOR");
-                    authorizeRequests.requestMatchers("/student/**").hasRole("STUDENT");
-                    authorizeRequests.requestMatchers("/css/**","/js/**").permitAll();
+                .authorizeHttpRequests(autz -> {
+                    autz.requestMatchers("/admin/**").hasRole("ADMIN");
+                    autz.requestMatchers("/professor/**").hasRole("PROFESSOR");
+                    autz.requestMatchers("/student/**").hasRole("STUDENT");
+                    autz.requestMatchers("/css/**","/js/**").permitAll();
+                    autz.anyRequest().authenticated();
                         });
 
         return http.build();

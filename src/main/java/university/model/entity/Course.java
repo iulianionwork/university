@@ -25,7 +25,7 @@ public class Course {
     @JoinColumn(name = "professor", nullable = false)
     private Professor professor;
 
-    @ManyToMany(mappedBy = "courses", cascade = CascadeType.MERGE)
+    @ManyToMany(mappedBy = "courses",fetch =  FetchType.LAZY)
     private List<Student> students;
 
     public Course(String courseName, Professor professor) {

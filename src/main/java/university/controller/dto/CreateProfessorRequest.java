@@ -6,11 +6,11 @@ import lombok.Setter;
 import university.model.entity.Role;
 
 @Getter @Setter @AllArgsConstructor
-public class UserDTO {
-    private String username;
+public class CreateProfessorRequest {
     private String password;
     private Role role;
     private String email;
     private String firstName;
     private String lastName;
+    private String department;
 }

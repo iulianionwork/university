@@ -3,14 +3,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-
-
 import java.util.List;
 
 @Entity
 @Table(name = "course")
-@Getter @Setter @NoArgsConstructor @ToString
+@Getter @Setter @NoArgsConstructor
 public class Course {
 
     @Id

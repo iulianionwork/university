@@ -6,15 +6,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.CreateProfessorRequest;
-import university.controller.dto.CreateStudentRequest;
 import university.controller.dto.ProfessorResponse;
 import university.controller.mapper.ProfessorMapper;
 import university.model.entity.Professor;
 import university.model.entity.Role;
-import university.model.entity.Student;
 import university.model.entity.UserCredentials;
 import university.model.repository.ProfessorRepository;
-import university.model.repository.StudentRepository;
 import university.model.repository.UserRepository;
 
 @Service

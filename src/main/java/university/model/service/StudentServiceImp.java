@@ -6,6 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.CreateStudentRequest;
+import university.controller.dto.StudentResponse;
+import university.controller.mapper.StudentMapper;
 import university.model.entity.Role;
 import university.model.entity.Student;
 import university.model.entity.UserCredentials;
@@ -19,25 +21,27 @@ public class StudentServiceImp implements StudentService {
     private final PasswordEncoder passwordEncoder;
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
+    private final StudentMapper studentMapper;
 
     @Override
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public Student create(CreateStudentRequest request){
+    public StudentResponse create(CreateStudentRequest request){
 
-        if(userRepository.existsByEmail(request.getEmail())){
+        if(userRepository.existsByEmail(request.email())){
             throw new IllegalArgumentException("Email already exists");
         }
 
-        Student student = new Student(request.getFirstName(), request.getLastName());
+        Student student = studentMapper.toEntity(request);
         studentRepository.save(student);
 
         UserCredentials studentUser = new UserCredentials();
-        studentUser.setEmail(request.getEmail());
-        studentUser.setPassword(passwordEncoder.encode(request.getPassword()));
+        studentUser.setEmail(request.email());
+        studentUser.setPassword(passwordEncoder.encode(request.password()));
         studentUser.setRole(Role.STUDENT);
         studentUser.setStudent(student);
         userRepository.save(studentUser);
-        return student;
+
+        return studentMapper.toDto(studentUser);
     }
 }

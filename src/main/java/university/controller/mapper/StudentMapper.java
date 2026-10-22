@@ -1,6 +1,7 @@
 package university.controller.mapper;
 
 
+import org.springframework.stereotype.Component;
 import university.controller.dto.CreateStudentRequest;
 import university.controller.dto.StudentResponse;
 import university.controller.dto.UpdateStudentRequest;
@@ -9,6 +10,7 @@ import university.model.entity.UserCredentials;
 
 import java.util.Optional;
 
+@Component
 public class StudentMapper implements ToDtoMapper<UserCredentials, StudentResponse>, ToEntityMapper<CreateStudentRequest, Student>, UpdateMapper<UpdateStudentRequest, Student> {
     @Override
     public StudentResponse toDto(UserCredentials user) {
@@ -18,7 +20,7 @@ public class StudentMapper implements ToDtoMapper<UserCredentials, StudentRespon
                 user.getEmail(),
                 student.getFirstName(),
                 student.getLastName(),
-                student.getGroup().getGroupName());
+                student.getGroup() == null ? null : student.getGroup().getGroupName());
     }
 
 

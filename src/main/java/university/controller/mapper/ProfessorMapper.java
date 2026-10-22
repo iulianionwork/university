@@ -1,5 +1,6 @@
 package university.controller.mapper;
 
+import org.springframework.stereotype.Component;
 import university.controller.dto.CreateProfessorRequest;
 import university.controller.dto.ProfessorResponse;
 import university.controller.dto.UpdateProfessorRequest;
@@ -8,6 +9,7 @@ import university.model.entity.UserCredentials;
 
 import java.util.Optional;
 
+@Component
 public class ProfessorMapper implements ToDtoMapper<UserCredentials, ProfessorResponse>, ToEntityMapper<CreateProfessorRequest, Professor>, UpdateMapper<UpdateProfessorRequest, Professor> {
 
 

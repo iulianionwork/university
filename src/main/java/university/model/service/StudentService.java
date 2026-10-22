@@ -1,8 +1,9 @@
 package university.model.service;
 
 import university.controller.dto.CreateStudentRequest;
+import university.controller.dto.StudentResponse;
 import university.model.entity.Student;
 
 public interface StudentService {
-    Student create(CreateStudentRequest request);
+    StudentResponse create(CreateStudentRequest request);
 }

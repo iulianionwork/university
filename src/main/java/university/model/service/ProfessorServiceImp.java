@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.CreateProfessorRequest;
 import university.controller.dto.CreateStudentRequest;
+import university.controller.dto.ProfessorResponse;
+import university.controller.mapper.ProfessorMapper;
 import university.model.entity.Professor;
 import university.model.entity.Role;
 import university.model.entity.Student;
@@ -22,25 +24,27 @@ public class ProfessorServiceImp implements ProfessorService {
     private final PasswordEncoder passwordEncoder;
     private final ProfessorRepository professorRepository;
     private final UserRepository userRepository;
+    private final ProfessorMapper professorMapper;
 
     @Override
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public Professor create(CreateProfessorRequest request){
+    public ProfessorResponse create(CreateProfessorRequest request){
 
-        if(userRepository.existsByEmail(request.getEmail())){
+        if(userRepository.existsByEmail(request.email())){
             throw new IllegalArgumentException("Email already exists");
         }
 
-        Professor professor = new Professor(request.getFirstName(), request.getLastName(),  request.getDepartment());
+        Professor professor = professorMapper.toEntity(request);
         professorRepository.save(professor);
 
         UserCredentials professorUser = new UserCredentials();
-        professorUser.setEmail(request.getEmail());
-        professorUser.setPassword(passwordEncoder.encode(request.getPassword()));
+        professorUser.setEmail(request.email());
+        professorUser.setPassword(passwordEncoder.encode(request.password()));
         professorUser.setRole(Role.PROFESSOR);
         professorUser.setProfessor(professor);
         userRepository.save(professorUser);
-        return professor;
+
+        return professorMapper.toDto(professorUser);
     }
 }

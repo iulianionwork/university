@@ -26,7 +26,7 @@ public class Student {
     @JoinColumn(name = "university_group")
     private Group group;
 
-    @ManyToMany(fetch =  FetchType.EAGER)
+    @ManyToMany(fetch =  FetchType.LAZY)
     @JoinTable(name = "student_course", joinColumns = {
             @JoinColumn(name = "student_id", nullable = false)},
             inverseJoinColumns = { @JoinColumn(name = "course_id",nullable = false)}

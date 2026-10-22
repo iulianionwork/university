@@ -87,7 +87,9 @@ public class CourseServiceImp implements CourseService{
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found: " + studentId));
 
-        course.getStudents().add(student);
+        List<Student> students =  course.getStudents();
+        students.add(student);
+        course.setStudents(students);
 
 
     }
@@ -101,7 +103,9 @@ public class CourseServiceImp implements CourseService{
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found: " + studentId));
 
-        course.getStudents().remove(student);
+        List<Student> students =  course.getStudents();
+        students.remove(student);
+        course.setStudents(students);
 
     }
 

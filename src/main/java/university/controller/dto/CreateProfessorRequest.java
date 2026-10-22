@@ -1,14 +1,13 @@
 package university.controller.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
-@Getter @Setter @AllArgsConstructor
-public class CreateProfessorRequest {
-    private String password;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String department;
+public record CreateProfessorRequest(
+        @NotBlank @Email String email,
+        @NotBlank String password,
+        @NotBlank String firstName,
+        @NotBlank String lastName,
+        @NotBlank String department) {
+
 }

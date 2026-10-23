@@ -19,11 +19,11 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
 
     @Query("""
             SELECT u FROM UserCredentials u
-            JOIN u.student s
-            LEFT JOIN  s.group
+            JOIN FETCH u.student s
+            LEFT JOIN FETCH  s.group
             """)
     List<UserCredentials> findAllStudents();
 
-    @Query("SELECT u FROM UserCredentials u JOIN u.professor")
+    @Query("SELECT u FROM UserCredentials u JOIN FETCH u.professor")
     List<UserCredentials> findAllProfessors();
 }

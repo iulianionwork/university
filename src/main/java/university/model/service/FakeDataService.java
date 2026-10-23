@@ -3,6 +3,7 @@ package university.model.service;
 import lombok.AllArgsConstructor;
 import net.datafaker.Faker;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.CreateProfessorRequest;
 import university.controller.dto.CreateStudentRequest;
 
@@ -14,7 +15,7 @@ public class FakeDataService {
     private final StudentService studentService;
     private final ProfessorService professorService;
 
-
+    @Transactional
     public void generateStudents(int count) {
         Faker faker = new Faker();
 
@@ -31,6 +32,7 @@ public class FakeDataService {
         }
     }
 
+    @Transactional
     public void generateMateProfessor(int count) {
         Faker faker = new Faker();
 
@@ -48,6 +50,7 @@ public class FakeDataService {
         }
     }
 
+    @Transactional
     public void generateInfoProfessor(int count) {
         Faker faker = new Faker();
 
@@ -65,6 +68,7 @@ public class FakeDataService {
         }
     }
 
+    @Transactional
     public void generateItalianProfessor(int count) {
         Faker faker = new Faker();
 

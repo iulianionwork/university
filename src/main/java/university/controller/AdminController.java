@@ -36,68 +36,6 @@ public class AdminController {
         return professorService.create(request);
     }
 
-    /*
-
-    Hibernate: select uc1_0.id,uc1_0.email,uc1_0.password,uc1_0.professor_id,uc1_0.role,uc1_0.student_id from users uc1_0 where uc1_0.email=?
-Hibernate: select uc1_0.id,uc1_0.email,uc1_0.password,uc1_0.professor_id,uc1_0.role,uc1_0.student_id from users uc1_0 join student s1_0 on s1_0.id=uc1_0.student_id
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name from student s1_0 where s1_0.id=?
-
-     */
-
     @GetMapping("/students")
     @ResponseStatus(HttpStatus.OK)
     public List<StudentResponse> getStudents() {
@@ -118,26 +56,26 @@ Hibernate: select s1_0.id,s1_0.first_name,s1_0.university_group,s1_0.last_name f
         return "Generated " + count + " students";
     }
 
-    /* @PostMapping("/fake/professors/mate/{count}")
+     @PostMapping("/fake/professors/mate/{count}")
     @ResponseStatus(HttpStatus.CREATED)
     public String generateMateProfessor(@PathVariable int count) {
-        fakeData.generateMateProfessor(count);
+         fakeDataService.generateMateProfessor(count);
         return "Generated " + count + " mate professors";
     }
 
     @PostMapping("/fake/professors/info/{count}")
     @ResponseStatus(HttpStatus.CREATED)
     public String generateInfoProfessor(@PathVariable int count) {
-        fakeData.generateInfoProfessor(count);
+        fakeDataService.generateInfoProfessor(count);
         return "Generated " + count + " info professors";
     }
 
     @PostMapping("/fake/professors/italy/{count}")
     @ResponseStatus(HttpStatus.CREATED)
     public String generateItalyProfessor(@PathVariable int count) {
-        fakeData.generateItalianProfessor(count);
+        fakeDataService.generateItalianProfessor(count);
         return "Generated " + count + " italy professors";
-    } */
+    }
 
 
 }

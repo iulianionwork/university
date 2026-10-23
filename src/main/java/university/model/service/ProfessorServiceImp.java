@@ -1,6 +1,7 @@
 package university.model.service;
 
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import university.model.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -31,15 +33,13 @@ public class ProfessorServiceImp implements ProfessorService {
     @PreAuthorize("hasRole('ADMIN')")
     public ProfessorResponse create(CreateProfessorRequest request){
 
-        if(userRepository.existsByEmail(request.email())){
-            throw new IllegalArgumentException("Email already exists");
-        }
-
         Professor professor = professorMapper.toEntity(request);
         professorRepository.save(professor);
 
+        String email = emailConstruct(professor.getFirstName(), professor.getLastName(), professor.getId());
+
         UserCredentials professorUser = new UserCredentials();
-        professorUser.setEmail(request.email());
+        professorUser.setEmail(email);
         professorUser.setPassword(passwordEncoder.encode(request.password()));
         professorUser.setRole(Role.PROFESSOR);
         professorUser.setProfessor(professor);
@@ -48,14 +48,15 @@ public class ProfessorServiceImp implements ProfessorService {
         return professorMapper.toDto(professorUser);
     }
 
+    private String emailConstruct(String firstName, String lastName, long id){
+        return firstName.toLowerCase() + lastName.toLowerCase() + (int)id + "@professor.com";
+    }
+
     @Override
     public List<ProfessorResponse> getProfessors(){
-        List<UserCredentials> usersProfessor = userRepository.findByRole(Role.PROFESSOR);
-        List<ProfessorResponse> professors = new ArrayList<>();
 
-        for(UserCredentials user : usersProfessor){
-          professors.add(professorMapper.toDto(user));
-        }
-        return professors;
+        return userRepository.findAllProfessors().stream()
+                .map(professorMapper::toDto)
+                .toList();
     }
 }

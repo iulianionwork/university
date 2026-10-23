@@ -1,6 +1,7 @@
 package university.model.service;
 
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,15 +32,13 @@ public class StudentServiceImp implements StudentService {
     @PreAuthorize("hasRole('ADMIN')")
     public StudentResponse create(CreateStudentRequest request){
 
-        if(userRepository.existsByEmail(request.email())){
-            throw new IllegalArgumentException("Email already exists");
-        }
-
         Student student = studentMapper.toEntity(request);
         studentRepository.save(student);
 
+        String email = emailConstruct(student.getFirstName(), student.getLastName(), student.getId());
+
         UserCredentials studentUser = new UserCredentials();
-        studentUser.setEmail(request.email());
+        studentUser.setEmail(email);
         studentUser.setPassword(passwordEncoder.encode(request.password()));
         studentUser.setRole(Role.STUDENT);
         studentUser.setStudent(student);
@@ -48,14 +47,14 @@ public class StudentServiceImp implements StudentService {
         return studentMapper.toDto(studentUser);
     }
 
+    private String emailConstruct(String firstName, String lastName, long id){
+        return firstName.toLowerCase() + lastName.toLowerCase() + (int)id + "@student.com";
+    }
+
     @Override
     public List<StudentResponse> getStudents(){
-        List<UserCredentials> usersStudents = userRepository.findByRole(Role.STUDENT);
-        List<StudentResponse> studentResponses = new ArrayList<>();
-
-        for(UserCredentials user : usersStudents){
-                studentResponses.add(studentMapper.toDto(user));
-        }
-        return studentResponses;
+        return userRepository.findAllStudents().stream()
+                .map(studentMapper::toDto)
+                .toList();
     }
 }

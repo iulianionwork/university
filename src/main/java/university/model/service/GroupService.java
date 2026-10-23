@@ -28,7 +28,7 @@ public class GroupService {
     private final StudentMapper studentMapper;
 
     @Transactional
-    public GroupResponse createGroup(@Valid GroupRequest dto) {
+    public GroupResponse createGroup(GroupRequest dto) {
         Group group = groupRepository.save(groupMapper.toEntity(dto));
         return groupMapper.toDto(group);
     }

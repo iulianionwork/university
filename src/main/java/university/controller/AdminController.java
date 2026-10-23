@@ -79,7 +79,7 @@ public class AdminController {
 
     @PostMapping("/groups")
     @ResponseStatus(HttpStatus.CREATED)
-    public GroupResponse createGroup(@RequestBody GroupRequest request) {
+    public GroupResponse createGroup(@Valid @RequestBody GroupRequest request) {
         return groupService.createGroup(request);
     }
 
@@ -96,9 +96,9 @@ public class AdminController {
     }
 
     @PutMapping("/students/{studentId}/group/{groupId}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addStudentToGroup(@PathVariable Long groupId, @PathVariable Long studentId) {
-        studentService.assignStudentToGroup(studentId, groupId);
+        studentService.assignStudentToGroup(groupId, studentId);
     }
 
     @GetMapping("/students/without-group")

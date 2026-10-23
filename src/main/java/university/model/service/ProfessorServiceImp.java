@@ -14,6 +14,9 @@ import university.model.entity.UserCredentials;
 import university.model.repository.ProfessorRepository;
 import university.model.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ProfessorServiceImp implements ProfessorService {
@@ -43,5 +46,16 @@ public class ProfessorServiceImp implements ProfessorService {
         userRepository.save(professorUser);
 
         return professorMapper.toDto(professorUser);
+    }
+
+    @Override
+    public List<ProfessorResponse> getProfessors(){
+        List<UserCredentials> usersProfessor = userRepository.findByRole(Role.PROFESSOR);
+        List<ProfessorResponse> professors = new ArrayList<>();
+
+        for(UserCredentials user : usersProfessor){
+          professors.add(professorMapper.toDto(user));
+        }
+        return professors;
     }
 }

@@ -88,7 +88,7 @@ public class CourseServiceImp implements CourseService{
                 .orElseThrow(() -> new RuntimeException("Student not found: " + studentId));
 
         List<Course> courses =  student.getCourses();
-        courses.remove(course);
+        courses.add(course);
         student.setCourses(courses);
 
 
@@ -104,7 +104,7 @@ public class CourseServiceImp implements CourseService{
                 .orElseThrow(() -> new RuntimeException("Student not found: " + studentId));
 
         List<Course> courses =  student.getCourses();
-        courses.add(course);
+        courses.remove(course);
         student.setCourses(courses);
 
     }

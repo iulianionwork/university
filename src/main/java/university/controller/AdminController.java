@@ -1,36 +1,49 @@
 package university.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import university.controller.dto.CreateProfessorRequest;
 import university.controller.dto.CreateStudentRequest;
 import university.controller.dto.ProfessorResponse;
 import university.controller.dto.StudentResponse;
 import university.model.service.ProfessorService;
 import university.model.service.StudentService;
-import university.model.service.UserService;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/admin")
 public class AdminController {
 
-    private UserService userService;
-    private StudentService studentService;
-    private ProfessorService professorService;
+    private final StudentService studentService;
+    private final ProfessorService professorService;
 
 
 
-    @PostMapping("/admin/students")
-    public StudentResponse create(@RequestBody CreateStudentRequest request) {
+    @PostMapping("/students")
+    @ResponseStatus(HttpStatus.CREATED)
+    public StudentResponse createStudent(@Valid @RequestBody CreateStudentRequest request) {
          return studentService.create(request);
     }
 
-    @PostMapping("/admin/professors")
-    public ProfessorResponse create(@RequestBody CreateProfessorRequest request) {
+    @PostMapping("/professors")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProfessorResponse createProfessor(@Valid @RequestBody CreateProfessorRequest request) {
         return professorService.create(request);
+    }
+
+    @GetMapping("/students")
+    @ResponseStatus(HttpStatus.OK)
+    public List<StudentResponse> getStudents() {
+        return studentService.getStudents();
+    }
+
+    @GetMapping("/professors")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProfessorResponse> getProfessors() {
+        return professorService.getProfessors();
     }
 }

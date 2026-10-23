@@ -14,6 +14,9 @@ import university.model.entity.UserCredentials;
 import university.model.repository.StudentRepository;
 import university.model.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class StudentServiceImp implements StudentService {
@@ -43,5 +46,16 @@ public class StudentServiceImp implements StudentService {
         userRepository.save(studentUser);
 
         return studentMapper.toDto(studentUser);
+    }
+
+    @Override
+    public List<StudentResponse> getStudents(){
+        List<UserCredentials> usersStudents = userRepository.findByRole(Role.STUDENT);
+        List<StudentResponse> studentResponses = new ArrayList<>();
+
+        for(UserCredentials user : usersStudents){
+                studentResponses.add(studentMapper.toDto(user));
+        }
+        return studentResponses;
     }
 }

@@ -47,7 +47,7 @@ public class ProfessorService{
 
     private String emailConstruct(String firstName, String lastName, long id){
         String cleanName = (firstName + "." +lastName).toLowerCase().replaceAll("[^a-z.]","");
-        return cleanName + (int)id + "@professor.com";
+        return cleanName + id + "@professor.com";
     }
 
 

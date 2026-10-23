@@ -2,6 +2,7 @@ package university.model.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import university.model.entity.Role;
 import university.model.entity.UserCredentials;
@@ -26,4 +27,12 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
 
     @Query("SELECT u FROM UserCredentials u JOIN FETCH u.professor")
     List<UserCredentials> findAllProfessors();
+
+    @Query("""
+            SELECT u FROM UserCredentials u
+            JOIN FETCH u.student s
+            LEFT JOIN FETCH  s.group g
+                        WHERE g.id = :groupId
+            """)
+    List<UserCredentials> findStudentsByGroupId(@Param("groupId") Long groupId);
 }

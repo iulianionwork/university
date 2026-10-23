@@ -14,7 +14,7 @@ import university.model.repository.UserRepository;
 @Service
 public class UserService implements UserDetailsService {
 
-    @Autowired
+
     private final UserRepository userRepository;
 
 

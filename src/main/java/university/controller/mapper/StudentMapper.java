@@ -13,11 +13,11 @@ import java.util.Optional;
 @Component
 public class StudentMapper implements ToDtoMapper<UserCredentials, StudentResponse>, ToEntityMapper<CreateStudentRequest, Student>, UpdateMapper<UpdateStudentRequest, Student> {
     @Override
-    public StudentResponse toDto(UserCredentials user) {
-        Student student = user.getStudent();
+    public StudentResponse toDto(UserCredentials dto) {
+        Student student = dto.getStudent();
         return new StudentResponse(
                 student.getId(),
-                user.getEmail(),
+                dto.getEmail(),
                 student.getFirstName(),
                 student.getLastName(),
                 student.getGroup() == null ? null : student.getGroup().getGroupName());
@@ -26,6 +26,7 @@ public class StudentMapper implements ToDtoMapper<UserCredentials, StudentRespon
 
     @Override
     public Student toEntity(CreateStudentRequest dto) {
+
         return new Student(dto.firstName(),  dto.lastName());
     }
 

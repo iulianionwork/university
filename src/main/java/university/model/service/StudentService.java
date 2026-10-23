@@ -8,9 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.CreateStudentRequest;
 import university.controller.dto.StudentResponse;
 import university.controller.mapper.StudentMapper;
+import university.model.entity.Group;
 import university.model.entity.Role;
 import university.model.entity.Student;
 import university.model.entity.UserCredentials;
+import university.model.repository.GroupRepository;
 import university.model.repository.StudentRepository;
 import university.model.repository.UserRepository;
 
@@ -24,6 +26,7 @@ public class StudentService{
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
     private final StudentMapper studentMapper;
+    private final GroupRepository groupRepository;
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
@@ -46,12 +49,33 @@ public class StudentService{
 
     private String emailConstruct(String firstName, String lastName, long id){
         String cleanName = (firstName + "." +lastName).toLowerCase().replaceAll("[^a-z.]","");
-        return cleanName + (int)id + "@student.com";
+        return cleanName + id + "@student.com";
     }
 
+    @Transactional(readOnly = true)
     public List<StudentResponse> getStudents(){
         return userRepository.findAllStudents().stream()
                 .map(studentMapper::toDto)
                 .toList();
     }
+    @Transactional
+    public void assignStudentToGroup(Long groupId, Long studentId){
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(()-> new IllegalArgumentException("Invalid student Id: " + studentId));
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(()-> new IllegalArgumentException("Invalid group Id: " + groupId));
+
+        student.setGroup(group);
+        studentRepository.save(student);
+
+    }
+    @Transactional(readOnly = true)
+    public List<StudentResponse> getStudentsWhitoutGroup(){
+        return userRepository.findAllStudents().stream()
+                .filter(s -> s.getStudent().getGroup() == null)
+                .map(studentMapper::toDto)
+                .toList();
+    }
+
 }

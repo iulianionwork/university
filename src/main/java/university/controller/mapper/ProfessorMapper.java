@@ -14,11 +14,11 @@ public class ProfessorMapper implements ToDtoMapper<UserCredentials, ProfessorRe
 
 
     @Override
-    public ProfessorResponse toDto(UserCredentials user) {
-        Professor professor = user.getProfessor();
+    public ProfessorResponse toDto(UserCredentials dto) {
+        Professor professor = dto.getProfessor();
         return new ProfessorResponse(
                 professor.getId(),
-                user.getEmail(),
+                dto.getEmail(),
                 professor.getFirstName(),
                 professor.getLastName(),
                 professor.getDepartment());
@@ -30,14 +30,14 @@ public class ProfessorMapper implements ToDtoMapper<UserCredentials, ProfessorRe
     }
 
     @Override
-    public void updateEntity(UpdateProfessorRequest dto, Professor professor) {
+    public void updateEntity(UpdateProfessorRequest dto, Professor entity) {
         Optional.ofNullable(dto.firstName())
-                .ifPresent(professor::setFirstName);
+                .ifPresent(entity::setFirstName);
 
         Optional.ofNullable(dto.lastName())
-                .ifPresent(professor::setLastName);
+                .ifPresent(entity::setLastName);
 
         Optional.ofNullable(dto.department())
-                .ifPresent(professor::setDepartment);
+                .ifPresent(entity::setDepartment);
     }
 }

@@ -13,7 +13,7 @@ public class GroupMapper implements ToDtoMapper<Group, GroupResponse>, ToEntityM
         return new GroupResponse(
                 dto.getId(),
                 dto.getGroupName(),
-                dto.getStudents().size());
+                dto.getStudents() == null ? 0 : dto.getStudents().size() );
     }
 
     @Override

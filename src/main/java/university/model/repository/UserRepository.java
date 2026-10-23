@@ -31,8 +31,15 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
     @Query("""
             SELECT u FROM UserCredentials u
             JOIN FETCH u.student s
-            LEFT JOIN FETCH  s.group g
+            JOIN FETCH  s.group g
                         WHERE g.id = :groupId
             """)
-    List<UserCredentials> findStudentsByGroupId(@Param("groupId") Long groupId);
+    List<UserCredentials> getStudentsByGroupId(@Param("groupId") Long groupId);
+
+    @Query("""
+            SELECT u FROM UserCredentials u
+            JOIN FETCH u.student s
+            WHERE  s.group IS NULL
+            """)
+    List<UserCredentials> getStudentsWithoutGroup();
 }

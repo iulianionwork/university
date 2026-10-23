@@ -1,5 +1,6 @@
 package university.model.service;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class GroupService {
     private final StudentMapper studentMapper;
 
     @Transactional
-    public GroupResponse createGroup(GroupRequest dto) {
+    public GroupResponse createGroup(@Valid GroupRequest dto) {
         Group group = groupRepository.save(groupMapper.toEntity(dto));
         return groupMapper.toDto(group);
     }
@@ -38,7 +39,6 @@ public class GroupService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid group Id: " + groupId));
 
         group.setGroupName(dto.groupName());
-        groupRepository.save(group);
         return groupMapper.toDto(group);
 
     }
@@ -56,7 +56,7 @@ public class GroupService {
         if(!groupRepository.existsById(groupId)) {
             throw new IllegalArgumentException("Invalid group Id: " + groupId);
         }
-        return userRepository.findStudentsByGroupId(groupId).stream()
+        return userRepository.getStudentsByGroupId(groupId).stream()
                 .map(studentMapper::toDto)
                 .toList();
 

@@ -97,14 +97,14 @@ public class AdminController {
 
     @PutMapping("/students/{studentId}/group/{groupId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addStudentToGroup(@PathVariable Long studentId, @PathVariable Long groupId) {
+    public void addStudentToGroup(@PathVariable Long groupId, @PathVariable Long studentId) {
         studentService.assignStudentToGroup(studentId, groupId);
     }
 
     @GetMapping("/students/without-group")
     @ResponseStatus(HttpStatus.OK)
     public List<StudentResponse> getStudentsWithoutGroup() {
-        return studentService.getStudentsWhitoutGroup();
+        return studentService.getStudentsWithoutGroup();
     }
 
 

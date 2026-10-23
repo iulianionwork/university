@@ -67,13 +67,11 @@ public class StudentService{
                 .orElseThrow(()-> new IllegalArgumentException("Invalid group Id: " + groupId));
 
         student.setGroup(group);
-        studentRepository.save(student);
 
     }
     @Transactional(readOnly = true)
-    public List<StudentResponse> getStudentsWhitoutGroup(){
-        return userRepository.findAllStudents().stream()
-                .filter(s -> s.getStudent().getGroup() == null)
+    public List<StudentResponse> getStudentsWithoutGroup(){
+        return userRepository.getStudentsWithoutGroup().stream()
                 .map(studentMapper::toDto)
                 .toList();
     }

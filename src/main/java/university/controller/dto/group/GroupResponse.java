@@ -1,4 +1,4 @@
-package university.controller.dto;
+package university.controller.dto.group;
 
 public record GroupResponse(
         Long id,

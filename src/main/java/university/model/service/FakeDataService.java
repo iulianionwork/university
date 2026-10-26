@@ -2,10 +2,11 @@ package university.model.service;
 
 import lombok.AllArgsConstructor;
 import net.datafaker.Faker;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import university.controller.dto.CreateProfessorRequest;
-import university.controller.dto.CreateStudentRequest;
+import university.controller.dto.professor.CreateProfessorRequest;
+import university.controller.dto.student.CreateStudentRequest;
 
 
 @Service
@@ -16,6 +17,7 @@ public class FakeDataService {
     private final ProfessorService professorService;
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void generateStudents(int count) {
         Faker faker = new Faker();
 
@@ -33,6 +35,7 @@ public class FakeDataService {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void generateMateProfessor(int count) {
         Faker faker = new Faker();
 
@@ -51,6 +54,7 @@ public class FakeDataService {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void generateInfoProfessor(int count) {
         Faker faker = new Faker();
 
@@ -69,6 +73,7 @@ public class FakeDataService {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void generateItalianProfessor(int count) {
         Faker faker = new Faker();
 

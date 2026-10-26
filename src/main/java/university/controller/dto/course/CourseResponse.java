@@ -1,4 +1,4 @@
-package university.controller.dto;
+package university.controller.dto.course;
 
 public record CourseResponse(
         Long id,

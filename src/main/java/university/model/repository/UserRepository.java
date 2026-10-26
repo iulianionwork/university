@@ -54,9 +54,6 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
             """)
     List<UserCredentials> getStudentsWithoutGroup();
 
-    Student getStudent();
-
-    Professor getProfessor();
 
 
 

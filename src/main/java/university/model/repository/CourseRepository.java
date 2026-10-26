@@ -8,9 +8,12 @@ import university.model.entity.Course;
 import university.model.entity.Professor;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
+
+
     Course getCourseByCourseName(String name);
     List<Course> getCoursesByProfessorId(Long professorId);
 
@@ -18,7 +21,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     SELECT c FROM Course c
     JOIN FETCH c.professor
     JOIN c.students s
-    WHERE s.id =: studentId
+    WHERE s.id =:studentId
     """)
     List<Course> getCoursesByStudentId(@Param("studentId") Long studentId);
 

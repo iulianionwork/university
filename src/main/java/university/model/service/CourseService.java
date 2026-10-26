@@ -1,21 +1,19 @@
 package university.model.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import university.controller.dto.CourseRequest;
-import university.controller.dto.CourseResponse;
-import university.controller.dto.CourseUpdate;
-import university.controller.dto.StudentResponse;
+import university.controller.dto.course.CourseRequest;
+import university.controller.dto.course.CourseResponse;
+import university.controller.dto.course.CourseUpdate;
+import university.controller.dto.student.StudentResponse;
 import university.controller.mapper.CourseMapper;
 import university.controller.mapper.ProfessorMapper;
 import university.controller.mapper.StudentMapper;
 import university.model.entity.Course;
 import university.model.entity.Professor;
 import university.model.entity.Student;
-import university.model.entity.UserCredentials;
 import university.model.repository.CourseRepository;
 import university.model.repository.ProfessorRepository;
 import university.model.repository.StudentRepository;
@@ -34,24 +32,28 @@ public class CourseService{
     private final CourseMapper courseMapper;
     private final ProfessorMapper professorMapper;
     private final StudentMapper studentMapper;
+    private final UserService userService;
 
 
 
-
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN')")
     public List<CourseResponse> getAllCourses() {
         return courseRepository.findAll().stream()
                 .map(courseMapper::toDto)
                 .toList();
     }
 
-
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN')")
     public CourseResponse getCourseById(Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
         return courseMapper.toDto(course);
     }
 
-
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN')")
     public CourseResponse getCourseByName(String name) {
         Course course = courseRepository.getCourseByCourseName(name);
         if(course == null){
@@ -62,6 +64,7 @@ public class CourseService{
 
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public CourseResponse createCourse(CourseRequest request) {
         Professor professor = professorRepository.findById(request.professorId())
                 .orElseThrow(() -> new RuntimeException("Professor not found: " + request.professorId()));
@@ -74,6 +77,7 @@ public class CourseService{
 
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public CourseResponse updateCourseProfessor(CourseUpdate courseUpdate, Long courseId) {
 
         Course course = courseRepository.findById(courseId)
@@ -88,6 +92,7 @@ public class CourseService{
 
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void enrollStudentToCourse(Long courseId, Long studentId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
@@ -104,6 +109,7 @@ public class CourseService{
 
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void unenrollStudentToCourse(Long courseId, Long studentId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
@@ -119,6 +125,7 @@ public class CourseService{
 
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteCourse(Long id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Course not found: " + id));
@@ -129,8 +136,9 @@ public class CourseService{
 
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('PROFESSOR')")
     public List<CourseResponse> getCoursesOfProfessor() {
-        Professor professor = userRepository.getProfessor();
+        Professor professor = userService.getProfessor();
 
         return courseRepository.getCoursesByProfessorId(professor.getId()).stream()
                 .map(courseMapper::toDto)
@@ -139,6 +147,7 @@ public class CourseService{
 
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('PROFESSOR')")
     public List<StudentResponse> getStudentsByCourseId(Long courseId) {
         courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
@@ -151,8 +160,9 @@ public class CourseService{
 
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('STUDENT')")
     public List<CourseResponse> getCoursesOfStudent() {
-        Student student = userRepository.getStudent();
+        Student student = userService.getStudent();
         return courseRepository.getCoursesByStudentId(student.getId()).stream()
                 .map(courseMapper::toDto)
                 .toList();

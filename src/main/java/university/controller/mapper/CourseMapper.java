@@ -1,7 +1,7 @@
 package university.controller.mapper;
 
 import org.springframework.stereotype.Component;
-import university.controller.dto.CourseResponse;
+import university.controller.dto.course.CourseResponse;
 import university.model.entity.Course;
 import university.model.entity.Professor;
 

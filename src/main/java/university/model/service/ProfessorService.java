@@ -5,8 +5,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import university.controller.dto.CreateProfessorRequest;
-import university.controller.dto.ProfessorResponse;
+import university.controller.dto.professor.CreateProfessorRequest;
+import university.controller.dto.professor.ProfessorResponse;
 import university.controller.mapper.ProfessorMapper;
 import university.model.entity.Professor;
 import university.model.entity.Role;
@@ -50,7 +50,8 @@ public class ProfessorService{
         return cleanName + id + "@professor.com";
     }
 
-
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN')")
     public List<ProfessorResponse> getProfessors(){
 
         return userRepository.findAllProfessors().stream()

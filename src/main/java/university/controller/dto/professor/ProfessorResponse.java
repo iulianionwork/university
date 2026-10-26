@@ -1,4 +1,4 @@
-package university.controller.dto;
+package university.controller.dto.professor;
 
 
 public record ProfessorResponse(

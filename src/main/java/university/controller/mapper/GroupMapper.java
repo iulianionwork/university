@@ -1,8 +1,8 @@
 package university.controller.mapper;
 
 import org.springframework.stereotype.Component;
-import university.controller.dto.GroupRequest;
-import university.controller.dto.GroupResponse;
+import university.controller.dto.group.GroupRequest;
+import university.controller.dto.group.GroupResponse;
 import university.model.entity.Group;
 
 @Component

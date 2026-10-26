@@ -1,9 +1,9 @@
 package university.controller.mapper;
 
 import org.springframework.stereotype.Component;
-import university.controller.dto.CreateProfessorRequest;
-import university.controller.dto.ProfessorResponse;
-import university.controller.dto.UpdateProfessorRequest;
+import university.controller.dto.professor.CreateProfessorRequest;
+import university.controller.dto.professor.ProfessorResponse;
+import university.controller.dto.professor.UpdateProfessorRequest;
 import university.model.entity.Professor;
 import university.model.entity.UserCredentials;
 

@@ -1,6 +1,5 @@
-package university.controller.dto;
+package university.controller.dto.professor;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public record CreateProfessorRequest(

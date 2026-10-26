@@ -1,19 +1,16 @@
 package university.model.service;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import university.controller.dto.GroupRequest;
-import university.controller.dto.GroupResponse;
-import university.controller.dto.StudentResponse;
+import university.controller.dto.group.GroupRequest;
+import university.controller.dto.group.GroupResponse;
+import university.controller.dto.student.StudentResponse;
 import university.controller.mapper.GroupMapper;
 import university.controller.mapper.StudentMapper;
 import university.model.entity.Group;
-import university.model.entity.Student;
 import university.model.repository.GroupRepository;
-import university.model.repository.StudentRepository;
 import university.model.repository.UserRepository;
 
 import java.util.List;
@@ -28,12 +25,14 @@ public class GroupService {
     private final StudentMapper studentMapper;
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public GroupResponse createGroup(GroupRequest dto) {
         Group group = groupRepository.save(groupMapper.toEntity(dto));
         return groupMapper.toDto(group);
     }
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public GroupResponse updateGroup(GroupRequest dto, Long groupId) {
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid group Id: " + groupId));
@@ -44,6 +43,7 @@ public class GroupService {
     }
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN')")
     public List<GroupResponse> getGroups() {
         return  groupRepository.findAll().stream()
                 .map(groupMapper::toDto)
@@ -51,6 +51,7 @@ public class GroupService {
     }
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN')")
     public List<StudentResponse> getStudentsFromGroup(Long groupId) {
 
         if(!groupRepository.existsById(groupId)) {

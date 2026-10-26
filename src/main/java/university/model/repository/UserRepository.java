@@ -42,4 +42,6 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
             WHERE  s.group IS NULL
             """)
     List<UserCredentials> getStudentsWithoutGroup();
+
+
 }

@@ -1,11 +1,18 @@
 package university.model.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import university.controller.dto.CourseRequest;
+import university.controller.dto.CourseUpdate;
+import university.controller.mapper.CourseMapper;
+import university.controller.mapper.ProfessorMapper;
 import university.model.entity.Course;
 import university.model.entity.Professor;
 import university.model.entity.Student;
+import university.model.entity.UserCredentials;
 import university.model.repository.CourseRepository;
 import university.model.repository.ProfessorRepository;
 import university.model.repository.StudentRepository;
@@ -21,6 +28,7 @@ public class CourseService{
     private final ProfessorRepository professorRepository;
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
+    private final CourseMapper courseMapper;
 
 
 
@@ -45,11 +53,11 @@ public class CourseService{
 
 
     @Transactional
-    public Course createCourse(String name, Long professorId) {
-        Professor professor = professorRepository.findById(professorId)
-                .orElseThrow(() -> new RuntimeException("Professor not found: " + professorId));
+    public Course createCourse(CourseRequest request) {
+        professorRepository.findById(request.professor().getId())
+                .orElseThrow(() -> new RuntimeException("Professor not found: " + request.professor().getId()));
 
-        Course course = new Course(name, professor);
+        Course course = courseMapper.toEntity(request);
         courseRepository.save(course);
         return course;
 
@@ -57,25 +65,12 @@ public class CourseService{
 
 
     @Transactional
-    public Course updateNameOfCourse(Long id, String name) {
-
-        Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Course not found: " + id));
-        course.setCourseName(name);
-        return course;
-    }
-
-
-    @Transactional
-    public void assignProfessorToCourse(Long courseId, Long professorId) {
-        Professor professor = professorRepository.findById(professorId)
-                .orElseThrow(() -> new RuntimeException("Professor not found: " + professorId));
+    public Course updateCourseProfessor(CourseUpdate courseUpdate, Long courseId) {
 
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
-
-        course.setProfessor(professor);
-
+        courseMapper.updateEntity(courseUpdate, course);
+        return course;
     }
 
 
@@ -123,8 +118,11 @@ public class CourseService{
 
     @Transactional(readOnly = true)
     public List<Course> getCoursesOfProfessor() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserCredentials user = (UserCredentials) authentication.getPrincipal();
+        Professor professor = user.getProfessor();
 
-        return List.of();
+        return courseRepository.getCoursesByProfessorId(professor.getId());
     }
 
 
@@ -140,9 +138,11 @@ public class CourseService{
 
     @Transactional(readOnly = true)
     public List<Course> getCoursesOfStudent() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserCredentials user = (UserCredentials) authentication.getPrincipal();
+        Student student = user.getStudent();
 
-
-        return List.of();
+        return courseRepository.getCoursesByStudentId(student.getId());
     }
 
 

@@ -5,5 +5,5 @@ import university.model.entity.Professor;
 
 public record CourseRequest(
         @NotBlank String courseName,
-        @NotBlank Professor professor) {
+        @NotBlank Long professorId) {
 }

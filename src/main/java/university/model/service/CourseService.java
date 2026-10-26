@@ -6,9 +6,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.CourseRequest;
+import university.controller.dto.CourseResponse;
 import university.controller.dto.CourseUpdate;
+import university.controller.dto.StudentResponse;
 import university.controller.mapper.CourseMapper;
 import university.controller.mapper.ProfessorMapper;
+import university.controller.mapper.StudentMapper;
 import university.model.entity.Course;
 import university.model.entity.Professor;
 import university.model.entity.Student;
@@ -29,48 +32,58 @@ public class CourseService{
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
     private final CourseMapper courseMapper;
+    private final ProfessorMapper professorMapper;
+    private final StudentMapper studentMapper;
 
 
 
 
-    public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+    public List<CourseResponse> getAllCourses() {
+        return courseRepository.findAll().stream()
+                .map(courseMapper::toDto)
+                .toList();
     }
 
 
-    public Course getCourseById(Long id) {
-        return courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Course not found: " + id));
+    public CourseResponse getCourseById(Long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
+        return courseMapper.toDto(course);
     }
 
 
-    public Course getCourseByName(String name) {
+    public CourseResponse getCourseByName(String name) {
         Course course = courseRepository.getCourseByCourseName(name);
         if(course == null){
             throw new RuntimeException("Course not found: " + name);
         }
-        return course;
+        return courseMapper.toDto(course);
     }
 
 
     @Transactional
-    public Course createCourse(CourseRequest request) {
-        professorRepository.findById(request.professor().getId())
-                .orElseThrow(() -> new RuntimeException("Professor not found: " + request.professor().getId()));
+    public CourseResponse createCourse(CourseRequest request) {
+        Professor professor = professorRepository.findById(request.professorId())
+                .orElseThrow(() -> new RuntimeException("Professor not found: " + request.professorId()));
 
-        Course course = courseMapper.toEntity(request);
+        Course course = new Course(request.courseName(), professor);
         courseRepository.save(course);
-        return course;
+        return courseMapper.toDto(course);
 
     }
 
 
     @Transactional
-    public Course updateCourseProfessor(CourseUpdate courseUpdate, Long courseId) {
+    public CourseResponse updateCourseProfessor(CourseUpdate courseUpdate, Long courseId) {
 
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
-        courseMapper.updateEntity(courseUpdate, course);
-        return course;
+        Professor professor = professorRepository.findById(courseUpdate.professorId())
+                .orElseThrow(() -> new RuntimeException("Professor not found: " + courseUpdate.professorId()));
+
+        course.setProfessor(professor);
+        courseRepository.save(course);
+        return courseMapper.toDto(course);
     }
 
 
@@ -107,7 +120,6 @@ public class CourseService{
 
     @Transactional
     public void deleteCourse(Long id) {
-
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Course not found: " + id));
         courseRepository.delete(course);
@@ -117,32 +129,33 @@ public class CourseService{
 
 
     @Transactional(readOnly = true)
-    public List<Course> getCoursesOfProfessor() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserCredentials user = (UserCredentials) authentication.getPrincipal();
-        Professor professor = user.getProfessor();
+    public List<CourseResponse> getCoursesOfProfessor() {
+        Professor professor = userRepository.getProfessor();
 
-        return courseRepository.getCoursesByProfessorId(professor.getId());
+        return courseRepository.getCoursesByProfessorId(professor.getId()).stream()
+                .map(courseMapper::toDto)
+                .toList();
     }
 
 
     @Transactional(readOnly = true)
-    public List<Student> getStudentsByCourseId(Long courseId) {
-        Course course = courseRepository.findById(courseId)
+    public List<StudentResponse> getStudentsByCourseId(Long courseId) {
+        courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
 
-        return course.getStudents();
+        return userRepository.getStudentsByCourseId(courseId).stream()
+                .map(studentMapper::toDto)
+                .toList();
     }
 
 
 
     @Transactional(readOnly = true)
-    public List<Course> getCoursesOfStudent() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserCredentials user = (UserCredentials) authentication.getPrincipal();
-        Student student = user.getStudent();
-
-        return courseRepository.getCoursesByStudentId(student.getId());
+    public List<CourseResponse> getCoursesOfStudent() {
+        Student student = userRepository.getStudent();
+        return courseRepository.getCoursesByStudentId(student.getId()).stream()
+                .map(courseMapper::toDto)
+                .toList();
     }
 
 

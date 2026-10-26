@@ -4,7 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import university.model.entity.Professor;
 import university.model.entity.Role;
+import university.model.entity.Student;
 import university.model.entity.UserCredentials;
 
 import java.util.List;
@@ -39,9 +41,23 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
     @Query("""
             SELECT u FROM UserCredentials u
             JOIN FETCH u.student s
+            LEFT JOIN FETCH  s.group
+            JOIN s.courses c
+            WHERE c.id = :courseId
+            """)
+    List<UserCredentials> getStudentsByCourseId(@Param("courseId") Long courseId);
+
+    @Query("""
+            SELECT u FROM UserCredentials u
+            JOIN FETCH u.student s
             WHERE  s.group IS NULL
             """)
     List<UserCredentials> getStudentsWithoutGroup();
+
+    Student getStudent();
+
+    Professor getProfessor();
+
 
 
 }

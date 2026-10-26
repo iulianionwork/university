@@ -132,12 +132,12 @@ public class AdminRestController {
 
     @PutMapping("/courses/{courseId}/professor")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public CourseResponse updateCourse(@PathVariable Long courseId, @Valid @RequestBody CourseUpdate request) {
-        return courseService.updateCourseProfessor(request, courseId);
+    public void updateCourse(@PathVariable Long courseId, @Valid @RequestBody CourseUpdate request) {
+        courseService.updateCourseProfessor(request, courseId);
     }
 
     @PostMapping("/courses/{courseId}/students/{studentId}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void enrollStudent(@PathVariable Long courseId, @PathVariable Long studentId) {
         courseService.enrollStudentToCourse(courseId, studentId);
     }

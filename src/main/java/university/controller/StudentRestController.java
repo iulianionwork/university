@@ -19,8 +19,8 @@ import java.util.List;
 @RequestMapping("/api/student")
 public class StudentRestController {
 
-    private CourseService courseService;
-    private UserService userService;
+    private final CourseService courseService;
+    private final UserService userService;
 
     @GetMapping("/me")
     @ResponseStatus(HttpStatus.OK)

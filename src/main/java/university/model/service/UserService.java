@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.professor.ProfessorResponse;
 import university.controller.dto.student.StudentResponse;
 import university.controller.mapper.ProfessorMapper;
@@ -50,21 +51,33 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new NotFoundException("User with email: " + email + " not found"));
     }
 
-    public StudentResponse getCurrentStudent(){
-        Student student = get().getStudent();
-        if(student == null){
+    @Transactional
+    public Student getStudent(){
+        UserCredentials user = get();
+        if(user.getStudent() == null){
             throw new AccessDeniedException("User is not logged as a student");
         }
 
-        return studentMapper.toDto(get());
+        return user.getStudent();
     }
 
-    public ProfessorResponse getCurrentProfessor(){
-        Professor professor = get().getProfessor();
-        if(professor == null){
+    @Transactional
+    public Professor getProfessor(){
+        UserCredentials user = get();
+        if(user.getProfessor() == null){
             throw new AccessDeniedException("User is not logged as a professor");
         }
 
+        return user.getProfessor();
+    }
+
+    @Transactional
+    public StudentResponse getCurrentStudent(){
+        return studentMapper.toDto(get());
+    }
+
+    @Transactional
+    public ProfessorResponse getCurrentProfessor(){
         return professorMapper.toDto(get());
     }
 

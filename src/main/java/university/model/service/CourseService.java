@@ -79,7 +79,7 @@ public class CourseService{
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public CourseResponse updateCourseProfessor(CourseUpdate courseUpdate, Long courseId) {
+    public void updateCourseProfessor(CourseUpdate courseUpdate, Long courseId) {
 
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new NotFoundException("Course not found: " + courseId));
@@ -88,7 +88,6 @@ public class CourseService{
 
         course.setProfessor(professor);
         courseRepository.save(course);
-        return courseMapper.toDto(course);
     }
 
 
@@ -145,9 +144,9 @@ public class CourseService{
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('PROFESSOR')")
     public List<CourseResponse> getCoursesOfProfessor() {
-        ProfessorResponse professor = userService.getCurrentProfessor();
+        Professor professor = userService.getProfessor();
 
-        return courseRepository.getCoursesByProfessorId(professor.id()).stream()
+        return courseRepository.getCoursesByProfessorId(professor.getId()).stream()
                 .map(courseMapper::toDto)
                 .toList();
     }
@@ -167,11 +166,11 @@ public class CourseService{
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('PROFESSOR')")
     public List<StudentResponse> getStudentsOfMyCourse(Long courseId) {
-        ProfessorResponse professor = userService.getCurrentProfessor();
+        Professor professor = userService.getProfessor();
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new NotFoundException("Course not found: " + courseId));
 
-        if(!course.getProfessor().getId().equals(professor.id())){
+        if(!course.getProfessor().getId().equals(professor.getId())){
             throw new AccessDeniedException("Access denied");
         }
 
@@ -185,8 +184,8 @@ public class CourseService{
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('STUDENT')")
     public List<CourseResponse> getCoursesOfStudent() {
-        StudentResponse student = userService.getCurrentStudent();
-        return courseRepository.getCoursesByStudentId(student.id()).stream()
+        Student student = userService.getStudent();
+        return courseRepository.getCoursesByStudentId(student.getId()).stream()
                 .map(courseMapper::toDto)
                 .toList();
     }

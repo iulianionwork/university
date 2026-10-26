@@ -16,8 +16,8 @@ import university.model.service.UserService;
 @RequestMapping("/api/professor")
 public class ProfessorRestController {
 
-    private CourseService courseService;
-    private UserService userService;
+    private final CourseService courseService;
+    private final UserService userService;
 
 
     @GetMapping("/me")

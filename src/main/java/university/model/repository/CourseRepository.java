@@ -13,6 +13,11 @@ import java.util.Optional;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
+    @Query("""
+    SELECT c FROM Course c
+    JOIN FETCH c.professor
+    """)
+    List<Course> findAll();
 
     Course getCourseByCourseName(String name);
     List<Course> getCoursesByProfessorId(Long professorId);

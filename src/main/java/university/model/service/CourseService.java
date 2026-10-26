@@ -1,6 +1,7 @@
 package university.model.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +10,6 @@ import university.controller.dto.course.CourseResponse;
 import university.controller.dto.course.CourseUpdate;
 import university.controller.dto.student.StudentResponse;
 import university.controller.mapper.CourseMapper;
-import university.controller.mapper.ProfessorMapper;
 import university.controller.mapper.StudentMapper;
 import university.model.entity.Course;
 import university.model.entity.Professor;
@@ -30,7 +30,6 @@ public class CourseService{
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
     private final CourseMapper courseMapper;
-    private final ProfessorMapper professorMapper;
     private final StudentMapper studentMapper;
     private final UserService userService;
 
@@ -147,10 +146,26 @@ public class CourseService{
 
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasRole('PROFESSOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<StudentResponse> getStudentsByCourseId(Long courseId) {
         courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
+
+        return userRepository.getStudentsByCourseId(courseId).stream()
+                .map(studentMapper::toDto)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('PROFESSOR')")
+    public List<StudentResponse> getStudentsOfMyCourse(Long courseId) {
+        Professor professor = userService.getProfessor();
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
+
+        if(!course.getProfessor().getId().equals(professor.getId())){
+            throw new AccessDeniedException("Access denied");
+        }
 
         return userRepository.getStudentsByCourseId(courseId).stream()
                 .map(studentMapper::toDto)

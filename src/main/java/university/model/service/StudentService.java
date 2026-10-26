@@ -53,12 +53,14 @@ public class StudentService{
     }
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN')")
     public List<StudentResponse> getStudents(){
         return userRepository.findAllStudents().stream()
                 .map(studentMapper::toDto)
                 .toList();
     }
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void assignStudentToGroup(Long groupId, Long studentId){
 
         Student student = studentRepository.findById(studentId)
@@ -70,6 +72,7 @@ public class StudentService{
 
     }
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN')")
     public List<StudentResponse> getStudentsWithoutGroup(){
         return userRepository.getStudentsWithoutGroup().stream()
                 .map(studentMapper::toDto)

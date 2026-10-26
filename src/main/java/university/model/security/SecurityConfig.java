@@ -24,9 +24,9 @@ public class SecurityConfig {
                 })
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(autz -> {
-                    autz.requestMatchers("/admin/**").hasRole("ADMIN");
-                    autz.requestMatchers("/professor/**").hasRole("PROFESSOR");
-                    autz.requestMatchers("/student/**").hasRole("STUDENT");
+                    autz.requestMatchers("/api/admin/**").hasRole("ADMIN");
+                    autz.requestMatchers("/api/professor/**").hasRole("PROFESSOR");
+                    autz.requestMatchers("/api/student/**").hasRole("STUDENT");
                     autz.requestMatchers("/login","/css/**","/js/**").permitAll();
                     autz.anyRequest().authenticated();
                         })

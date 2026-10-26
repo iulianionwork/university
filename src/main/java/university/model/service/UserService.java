@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import university.exception.NotFoundException;
 import university.model.entity.Professor;
 import university.model.entity.Student;
 import university.model.entity.UserCredentials;
@@ -26,7 +27,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         UserCredentials user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User with email: " + email + " not found"));
 
             return User.builder()
                     .username(user.getEmail())
@@ -39,7 +40,7 @@ public class UserService implements UserDetailsService {
     private UserCredentials get(){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new AccessDeniedException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User with email: " + email + " not found"));
     }
 
     public Professor getProfessor(){

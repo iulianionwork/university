@@ -11,6 +11,7 @@ import university.controller.dto.course.CourseUpdate;
 import university.controller.dto.student.StudentResponse;
 import university.controller.mapper.CourseMapper;
 import university.controller.mapper.StudentMapper;
+import university.exception.NotFoundException;
 import university.model.entity.Course;
 import university.model.entity.Professor;
 import university.model.entity.Student;
@@ -47,7 +48,7 @@ public class CourseService{
     @PreAuthorize("hasRole('ADMIN')")
     public CourseResponse getCourseById(Long courseId) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
+                .orElseThrow(() -> new NotFoundException("Course not found: " + courseId));
         return courseMapper.toDto(course);
     }
 
@@ -56,7 +57,7 @@ public class CourseService{
     public CourseResponse getCourseByName(String name) {
         Course course = courseRepository.getCourseByCourseName(name);
         if(course == null){
-            throw new RuntimeException("Course not found: " + name);
+            throw new NotFoundException("Course not found: " + name);
         }
         return courseMapper.toDto(course);
     }
@@ -66,7 +67,7 @@ public class CourseService{
     @PreAuthorize("hasRole('ADMIN')")
     public CourseResponse createCourse(CourseRequest request) {
         Professor professor = professorRepository.findById(request.professorId())
-                .orElseThrow(() -> new RuntimeException("Professor not found: " + request.professorId()));
+                .orElseThrow(() -> new NotFoundException("Professor not found: " + request.professorId()));
 
         Course course = new Course(request.courseName(), professor);
         courseRepository.save(course);
@@ -80,9 +81,9 @@ public class CourseService{
     public CourseResponse updateCourseProfessor(CourseUpdate courseUpdate, Long courseId) {
 
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
+                .orElseThrow(() -> new NotFoundException("Course not found: " + courseId));
         Professor professor = professorRepository.findById(courseUpdate.professorId())
-                .orElseThrow(() -> new RuntimeException("Professor not found: " + courseUpdate.professorId()));
+                .orElseThrow(() -> new NotFoundException("Professor not found: " + courseUpdate.professorId()));
 
         course.setProfessor(professor);
         courseRepository.save(course);
@@ -94,10 +95,10 @@ public class CourseService{
     @PreAuthorize("hasRole('ADMIN')")
     public void enrollStudentToCourse(Long courseId, Long studentId) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
+                .orElseThrow(() -> new NotFoundException("Course not found: " + courseId));
 
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found: " + studentId));
+                .orElseThrow(() -> new NotFoundException("Student not found: " + studentId));
 
         List<Course> courses =  student.getCourses();
         courses.add(course);
@@ -111,10 +112,10 @@ public class CourseService{
     @PreAuthorize("hasRole('ADMIN')")
     public void unenrollStudentToCourse(Long courseId, Long studentId) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
+                .orElseThrow(() -> new NotFoundException("Course not found: " + courseId));
 
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found: " + studentId));
+                .orElseThrow(() -> new NotFoundException("Student not found: " + studentId));
 
         List<Course> courses =  student.getCourses();
         courses.remove(course);
@@ -127,7 +128,7 @@ public class CourseService{
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteCourse(Long id) {
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Course not found: " + id));
+                .orElseThrow(() -> new NotFoundException("Course not found: " + id));
         courseRepository.delete(course);
 
     }
@@ -149,7 +150,7 @@ public class CourseService{
     @PreAuthorize("hasRole('ADMIN')")
     public List<StudentResponse> getStudentsByCourseId(Long courseId) {
         courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
+                .orElseThrow(() -> new NotFoundException("Course not found: " + courseId));
 
         return userRepository.getStudentsByCourseId(courseId).stream()
                 .map(studentMapper::toDto)
@@ -161,7 +162,7 @@ public class CourseService{
     public List<StudentResponse> getStudentsOfMyCourse(Long courseId) {
         Professor professor = userService.getProfessor();
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
+                .orElseThrow(() -> new NotFoundException("Course not found: " + courseId));
 
         if(!course.getProfessor().getId().equals(professor.getId())){
             throw new AccessDeniedException("Access denied");

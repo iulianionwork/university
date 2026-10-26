@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.student.CreateStudentRequest;
 import university.controller.dto.student.StudentResponse;
 import university.controller.mapper.StudentMapper;
+import university.exception.NotFoundException;
 import university.model.entity.Group;
 import university.model.entity.Role;
 import university.model.entity.Student;
@@ -64,9 +65,9 @@ public class StudentService{
     public void assignStudentToGroup(Long groupId, Long studentId){
 
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(()-> new IllegalArgumentException("Invalid student Id: " + studentId));
+                .orElseThrow(()-> new NotFoundException("Student not found: " + studentId));
         Group group = groupRepository.findById(groupId)
-                .orElseThrow(()-> new IllegalArgumentException("Invalid group Id: " + groupId));
+                .orElseThrow(()-> new NotFoundException("Group not found: " + groupId));
 
         student.setGroup(group);
 

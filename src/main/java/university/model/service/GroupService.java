@@ -9,6 +9,7 @@ import university.controller.dto.group.GroupResponse;
 import university.controller.dto.student.StudentResponse;
 import university.controller.mapper.GroupMapper;
 import university.controller.mapper.StudentMapper;
+import university.exception.NotFoundException;
 import university.model.entity.Group;
 import university.model.repository.GroupRepository;
 import university.model.repository.UserRepository;
@@ -35,7 +36,7 @@ public class GroupService {
     @PreAuthorize("hasRole('ADMIN')")
     public GroupResponse updateGroup(GroupRequest dto, Long groupId) {
         Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid group Id: " + groupId));
+                .orElseThrow(() -> new NotFoundException("Group not found: " + groupId));
 
         group.setGroupName(dto.groupName());
         return groupMapper.toDto(group);
@@ -55,7 +56,7 @@ public class GroupService {
     public List<StudentResponse> getStudentsFromGroup(Long groupId) {
 
         if(!groupRepository.existsById(groupId)) {
-            throw new IllegalArgumentException("Invalid group Id: " + groupId);
+            throw new NotFoundException("Group not found: " + groupId);
         }
         return userRepository.getStudentsByGroupId(groupId).stream()
                 .map(studentMapper::toDto)

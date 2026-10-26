@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.course.CourseRequest;
 import university.controller.dto.course.CourseResponse;
 import university.controller.dto.course.CourseUpdate;
+import university.controller.dto.professor.ProfessorResponse;
 import university.controller.dto.student.StudentResponse;
 import university.controller.mapper.CourseMapper;
 import university.controller.mapper.StudentMapper;
@@ -101,10 +102,13 @@ public class CourseService{
                 .orElseThrow(() -> new NotFoundException("Student not found: " + studentId));
 
         List<Course> courses =  student.getCourses();
+
+        if(courses.contains(course)){
+            throw new IllegalStateException("Student is already enrolled");
+        }
+
         courses.add(course);
         student.setCourses(courses);
-
-
     }
 
 
@@ -129,18 +133,21 @@ public class CourseService{
     public void deleteCourse(Long id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Course not found: " + id));
+
+        for (Student student : course.getStudents()) {
+            student.getCourses().remove(course);
+        }
+
         courseRepository.delete(course);
 
     }
 
-
-
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('PROFESSOR')")
     public List<CourseResponse> getCoursesOfProfessor() {
-        Professor professor = userService.getProfessor();
+        ProfessorResponse professor = userService.getCurrentProfessor();
 
-        return courseRepository.getCoursesByProfessorId(professor.getId()).stream()
+        return courseRepository.getCoursesByProfessorId(professor.id()).stream()
                 .map(courseMapper::toDto)
                 .toList();
     }
@@ -160,11 +167,11 @@ public class CourseService{
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('PROFESSOR')")
     public List<StudentResponse> getStudentsOfMyCourse(Long courseId) {
-        Professor professor = userService.getProfessor();
+        ProfessorResponse professor = userService.getCurrentProfessor();
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new NotFoundException("Course not found: " + courseId));
 
-        if(!course.getProfessor().getId().equals(professor.getId())){
+        if(!course.getProfessor().getId().equals(professor.id())){
             throw new AccessDeniedException("Access denied");
         }
 
@@ -178,8 +185,8 @@ public class CourseService{
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('STUDENT')")
     public List<CourseResponse> getCoursesOfStudent() {
-        Student student = userService.getStudent();
-        return courseRepository.getCoursesByStudentId(student.getId()).stream()
+        StudentResponse student = userService.getCurrentStudent();
+        return courseRepository.getCoursesByStudentId(student.id()).stream()
                 .map(courseMapper::toDto)
                 .toList();
     }

@@ -9,10 +9,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import university.controller.dto.professor.ProfessorResponse;
+import university.controller.dto.student.StudentResponse;
+import university.controller.mapper.ProfessorMapper;
+import university.controller.mapper.StudentMapper;
 import university.exception.NotFoundException;
 import university.model.entity.Professor;
 import university.model.entity.Student;
 import university.model.entity.UserCredentials;
+import university.model.repository.StudentRepository;
 import university.model.repository.UserRepository;
 
 @AllArgsConstructor
@@ -21,13 +26,15 @@ public class UserService implements UserDetailsService {
 
 
     private final UserRepository userRepository;
+    private final StudentMapper studentMapper;
+    private final ProfessorMapper professorMapper;
 
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) {
 
         UserCredentials user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("User with email: " + email + " not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User with email: " + email + " not found"));
 
             return User.builder()
                     .username(user.getEmail())
@@ -37,28 +44,31 @@ public class UserService implements UserDetailsService {
 
     }
 
-    private UserCredentials get(){
+    public UserCredentials get(){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User with email: " + email + " not found"));
     }
 
-    public Professor getProfessor(){
+    public StudentResponse getCurrentStudent(){
+        Student student = get().getStudent();
+        if(student == null){
+            throw new AccessDeniedException("User is not logged as a student");
+        }
+
+        return studentMapper.toDto(get());
+    }
+
+    public ProfessorResponse getCurrentProfessor(){
         Professor professor = get().getProfessor();
         if(professor == null){
             throw new AccessDeniedException("User is not logged as a professor");
         }
 
-        return professor;
+        return professorMapper.toDto(get());
     }
 
-    public Student getStudent(){
-        Student student = get().getStudent();
-        if(student == null){
-            throw new AccessDeniedException("User is not logged as a student");
-        }
-        return student;
-    }
+
 
 
 }

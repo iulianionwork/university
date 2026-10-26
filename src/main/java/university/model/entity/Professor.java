@@ -1,4 +1,5 @@
 package university.model.entity;
+
 import jakarta.persistence.*;
 import java.util.List;
 import lombok.Getter;

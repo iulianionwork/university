@@ -19,5 +19,10 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(accessDenied.getMessage());
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> illegalState(IllegalStateException illegalState) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(illegalState.getMessage());
+    }
+
 }
 

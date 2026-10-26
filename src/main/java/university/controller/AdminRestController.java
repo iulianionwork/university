@@ -4,16 +4,16 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import university.controller.dto.course.CourseRequest;
+import university.controller.dto.course.CourseResponse;
+import university.controller.dto.course.CourseUpdate;
 import university.controller.dto.group.GroupRequest;
 import university.controller.dto.group.GroupResponse;
 import university.controller.dto.professor.CreateProfessorRequest;
 import university.controller.dto.professor.ProfessorResponse;
 import university.controller.dto.student.CreateStudentRequest;
 import university.controller.dto.student.StudentResponse;
-import university.model.service.FakeDataService;
-import university.model.service.GroupService;
-import university.model.service.ProfessorService;
-import university.model.service.StudentService;
+import university.model.service.*;
 
 import java.util.List;
 
@@ -26,6 +26,7 @@ public class AdminRestController {
     private final ProfessorService professorService;
     private final FakeDataService fakeDataService;
     private final GroupService groupService;
+    private final CourseService courseService;
 
 
     @PostMapping("/students")
@@ -93,10 +94,10 @@ public class AdminRestController {
         return groupService.getGroups();
     }
 
-    @GetMapping("/groups/{id}/students")
+    @GetMapping("/groups/{groupId}/students")
     @ResponseStatus(HttpStatus.OK)
-    public List<StudentResponse> getStudents(@PathVariable Long id) {
-        return groupService.getStudentsFromGroup(id);
+    public List<StudentResponse> getStudentsGroups(@PathVariable Long groupId) {
+        return groupService.getStudentsFromGroup(groupId);
     }
 
     @PutMapping("/students/{studentId}/group/{groupId}")
@@ -110,6 +111,49 @@ public class AdminRestController {
     public List<StudentResponse> getStudentsWithoutGroup() {
         return studentService.getStudentsWithoutGroup();
     }
+
+    @GetMapping("/courses")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CourseResponse> getCourses() {
+        return courseService.getAllCourses();
+    }
+
+    @PostMapping("/courses")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CourseResponse createCourse(@Valid @RequestBody CourseRequest request) {
+        return courseService.createCourse(request);
+    }
+
+    @GetMapping("/courses/{courseId}/students")
+    @ResponseStatus(HttpStatus.OK)
+    public List<StudentResponse> getStudentsCourses(@PathVariable Long courseId) {
+        return courseService.getStudentsByCourseId(courseId);
+    }
+
+    @PutMapping("/courses/{courseId}/professor")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public CourseResponse updateCourse(@PathVariable Long courseId, @Valid @RequestBody CourseUpdate request) {
+        return courseService.updateCourseProfessor(request, courseId);
+    }
+
+    @PostMapping("/courses/{courseId}/students/{studentId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void enrollStudent(@PathVariable Long courseId, @PathVariable Long studentId) {
+        courseService.enrollStudentToCourse(courseId, studentId);
+    }
+
+    @DeleteMapping("/courses/{courseId}/students/{studentId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void unenrollStudent(@PathVariable Long courseId, @PathVariable Long studentId) {
+        courseService.unenrollStudentToCourse(courseId, studentId);
+    }
+
+    @DeleteMapping("/courses/{courseId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCourse(@PathVariable Long courseId) {
+        courseService.deleteCourse(courseId);
+    }
+
 
 
 }

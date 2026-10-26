@@ -2,11 +2,40 @@ package university.controller;
 
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import university.controller.dto.course.CourseResponse;
+import university.controller.dto.professor.ProfessorResponse;
+import university.controller.dto.student.StudentResponse;
+import university.model.service.CourseService;
+import university.model.service.UserService;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/professor")
 public class ProfessorRestController {
+
+    private CourseService courseService;
+    private UserService userService;
+
+
+    @GetMapping("/me")
+    @ResponseStatus(HttpStatus.OK)
+    public ProfessorResponse getCurrentProfessor() {
+        return userService.getCurrentProfessor();
+    }
+
+    @GetMapping("/courses")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CourseResponse> getCourses() {
+        return courseService.getCoursesOfProfessor();
+    }
+
+    @GetMapping("/courses/{courseId}/students")
+    @ResponseStatus(HttpStatus.OK)
+    public List<StudentResponse> getStudentsOfCourseById(@PathVariable Long courseId){
+        return courseService.getStudentsOfMyCourse(courseId);
+    }
+
 }

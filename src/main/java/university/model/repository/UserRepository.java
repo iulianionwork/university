@@ -67,5 +67,5 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
 
 
     Optional<UserCredentials> findByStudentId(Long studentId);
-    Optional<UserCredentials> findByProfessorId(Long studentId);
+    Optional<UserCredentials> findByProfessorId(Long professorId);
 }

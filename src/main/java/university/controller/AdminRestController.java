@@ -195,6 +195,12 @@ public class AdminRestController {
         professorService.deleteProfessor(professorId);
     }
 
+    @DeleteMapping("/groups/{groupId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteGroup(@PathVariable Long groupId) {
+        groupService.deleteGroup(groupId);
+    }
+
 
 
 }

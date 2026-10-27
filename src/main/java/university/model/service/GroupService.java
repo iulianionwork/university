@@ -52,6 +52,16 @@ public class GroupService {
                 .toList();
     }
 
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteGroup(Long groupId) {
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new NotFoundException("Group not found: " + groupId));
+
+        group.getStudents().clear();
+        groupRepository.delete(group);
+    }
+
 
 
 }

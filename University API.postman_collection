@@ -35,18 +35,17 @@
                 "method": "POST",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:8080/admin/fake/professors/italy/8",
-                  "protocol": "http",
+                  "raw": "{{baseUrl}}/api/admin/fake/professors/italy/{{count}}",
                   "host": [
-                    "localhost"
+                    "{{baseUrl}}"
                   ],
-                  "port": "8080",
                   "path": [
+                    "api",
                     "admin",
                     "fake",
                     "professors",
                     "italy",
-                    "8"
+                    "{{count}}"
                   ]
                 }
               },
@@ -73,18 +72,17 @@
                 "method": "POST",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:8080/admin/fake/professors/info/12",
-                  "protocol": "http",
+                  "raw": "{{baseUrl}}/api/admin/fake/professors/info/{{count}}",
                   "host": [
-                    "localhost"
+                    "{{baseUrl}}"
                   ],
-                  "port": "8080",
                   "path": [
+                    "api",
                     "admin",
                     "fake",
                     "professors",
                     "info",
-                    "12"
+                    "{{count}}"
                   ]
                 }
               },
@@ -111,18 +109,17 @@
                 "method": "POST",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:8080/admin/fake/professors/mate/10",
-                  "protocol": "http",
+                  "raw": "{{baseUrl}}/api/admin/fake/professors/mate/{{count}}",
                   "host": [
-                    "localhost"
+                    "{{baseUrl}}"
                   ],
-                  "port": "8080",
                   "path": [
+                    "api",
                     "admin",
                     "fake",
                     "professors",
                     "mate",
-                    "10"
+                    "{{count}}"
                   ]
                 }
               },
@@ -149,17 +146,16 @@
                 "method": "POST",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:8080/admin/fake/students/50",
-                  "protocol": "http",
+                  "raw": "{{baseUrl}}/api/admin/fake/students/{{count}}",
                   "host": [
-                    "localhost"
+                    "{{baseUrl}}"
                   ],
-                  "port": "8080",
                   "path": [
+                    "api",
                     "admin",
                     "fake",
                     "students",
-                    "50"
+                    "{{count}}"
                   ]
                 }
               },
@@ -197,12 +193,10 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/students",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/students",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
@@ -233,12 +227,10 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/professors",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/professors",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
@@ -424,17 +416,15 @@
                           }
                         },
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/professors/{professorId}",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/professors/{{professorId}}",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
                             "professors",
-                            "{professorId}"
+                            "{{professorId}}"
                           ]
                         }
                       },
@@ -466,17 +456,15 @@
                         "method": "DELETE",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/students/{studentId}",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/students/{{studentId}}",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
                             "students",
-                            "{studentId}"
+                            "{{studentId}}"
                           ]
                         }
                       },
@@ -503,17 +491,15 @@
                         "method": "DELETE",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/professors/{professorId}",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/professors/{{professorId}}",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
                             "professors",
-                            "{professorId}"
+                            "{{professorId}}"
                           ]
                         }
                       },
@@ -535,12 +521,10 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/groups",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/groups",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
@@ -556,17 +540,15 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/groups/{groupId}/students",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/groups/{{groupId}}/students",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
                             "groups",
-                            "{groupId}",
+                            "{{groupId}}",
                             "students"
                           ]
                         }
@@ -579,12 +561,10 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/students/without-group",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/students/without-group",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
@@ -615,12 +595,10 @@
                           }
                         },
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/groups",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/groups",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
@@ -641,19 +619,17 @@
                         "method": "PUT",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/students/{studentId}/group/{groupId}",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/students/{{studentId}}/group/{{groupId}}",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
                             "students",
-                            "{studentId}",
+                            "{{studentId}}",
                             "group",
-                            "{groupId}"
+                            "{{groupId}}"
                           ]
                         }
                       },
@@ -670,17 +646,23 @@
                         "method": "DELETE",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/groups/{groupId}",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/groups/{{groupId}}",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
                             "groups",
-                            "{groupId}"
+                            "{{groupId}}"
+                          ],
+                          "query": [
+                            {
+                              "key": "",
+                              "value": null,
+                              "type": "text",
+                              "disabled": true
+                            }
                           ]
                         }
                       },
@@ -760,12 +742,10 @@
                           }
                         },
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/courses",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/courses",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
@@ -790,19 +770,17 @@
                           }
                         },
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/courses/{courseId}/students/{studentId}",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/courses/{{courseId}}/students/{{studentId}}",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
                             "courses",
-                            "{courseId}",
+                            "{{courseId}}",
                             "students",
-                            "{studentId}"
+                            "{{studentId}}"
                           ]
                         }
                       },
@@ -828,17 +806,15 @@
                           }
                         },
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/courses/{courseId}/professor",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/courses/{{courseId}}/professor",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
                             "courses",
-                            "{courseId}",
+                            "{{courseId}}",
                             "professor"
                           ]
                         }
@@ -856,19 +832,17 @@
                         "method": "DELETE",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/courses/{courseId}/students/{studentId}",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/courses/{{courseId}}/students/{{studentId}}",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
                             "courses",
-                            "{courseId}",
+                            "{{courseId}}",
                             "students",
-                            "{studentId}"
+                            "{{studentId}}"
                           ]
                         }
                       },
@@ -880,17 +854,15 @@
                         "method": "DELETE",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/courses/{courseId}",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/courses/{{courseId}}",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
                             "courses",
-                            "{courseId}"
+                            "{{courseId}}"
                           ]
                         }
                       },
@@ -912,18 +884,15 @@
                         "method": "POST",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin//students/{studentId}/carnet",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/students/{{studentId}}/carnet",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
-                            "",
                             "students",
-                            "{studentId}",
+                            "{{studentId}}",
                             "carnet"
                           ]
                         }
@@ -941,12 +910,10 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/students/without-carnet",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/students/without-carnet",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
@@ -1029,12 +996,10 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:8080/api/student/me",
-                      "protocol": "http",
+                      "raw": "{{baseUrl}}/api/student/me",
                       "host": [
-                        "localhost"
+                        "{{baseUrl}}"
                       ],
-                      "port": "8080",
                       "path": [
                         "api",
                         "student",
@@ -1065,12 +1030,10 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:8080/api/student/carnet",
-                      "protocol": "http",
+                      "raw": "{{baseUrl}}/api/student/carnet",
                       "host": [
-                        "localhost"
+                        "{{baseUrl}}"
                       ],
-                      "port": "8080",
                       "path": [
                         "api",
                         "student",
@@ -1088,12 +1051,12 @@
                       "basic": [
                         {
                           "key": "password",
-                          "value": "studnet",
+                          "value": "student",
                           "type": "string"
                         },
                         {
                           "key": "username",
-                          "value": "tracy.braun34@student.com",
+                          "value": "wilmer.leffler10@student.com",
                           "type": "string"
                         }
                       ]
@@ -1101,12 +1064,10 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:8080/api/student/courses",
-                      "protocol": "http",
+                      "raw": "{{baseUrl}}/api/student/courses",
                       "host": [
-                        "localhost"
+                        "{{baseUrl}}"
                       ],
-                      "port": "8080",
                       "path": [
                         "api",
                         "student",
@@ -1147,12 +1108,10 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:8080/api/professor/me",
-                      "protocol": "http",
+                      "raw": "{{baseUrl}}/api/professor/me",
                       "host": [
-                        "localhost"
+                        "{{baseUrl}}"
                       ],
-                      "port": "8080",
                       "path": [
                         "api",
                         "professor",
@@ -1183,12 +1142,10 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:8080/api/professor/courses",
-                      "protocol": "http",
+                      "raw": "{{baseUrl}}/api/professor/courses",
                       "host": [
-                        "localhost"
+                        "{{baseUrl}}"
                       ],
-                      "port": "8080",
                       "path": [
                         "api",
                         "professor",
@@ -1219,17 +1176,15 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:8080/api/professor/courses/4/students",
-                      "protocol": "http",
+                      "raw": "{{baseUrl}}/api/professor/courses/{{courseId}}/students",
                       "host": [
-                        "localhost"
+                        "{{baseUrl}}"
                       ],
-                      "port": "8080",
                       "path": [
                         "api",
                         "professor",
                         "courses",
-                        "4",
+                        "{{courseId}}",
                         "students"
                       ]
                     }

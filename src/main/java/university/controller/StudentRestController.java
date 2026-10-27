@@ -1,6 +1,7 @@
 package university.controller;
 
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -43,9 +44,9 @@ public class StudentRestController {
         return carnetService.myCarnet();
     }
 
-    @PutMapping("/me/passowrd")
+    @PutMapping("/me/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updatePassowrd(@RequestBody PasswordChangeRequest request){
+    public void updatePassword(@Valid @RequestBody PasswordChangeRequest request){
         passwordService.userRequestPasswordModification(request);
     }
 }

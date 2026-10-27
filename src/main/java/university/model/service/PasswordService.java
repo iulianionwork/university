@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.password.PasswordChangeRequest;
 import university.controller.dto.password.PasswordModifyRequest;
+import university.exception.BadRequestException;
 import university.exception.NotFoundException;
 import university.model.entity.UserCredentials;
 import university.model.repository.UserRepository;
@@ -24,10 +25,9 @@ public class PasswordService {
     @Transactional
     public void userRequestPasswordModification(PasswordChangeRequest request) {
         UserCredentials userCredentials = userService.get();
-        String requestOldPassword =  passwordEncoder.encode(request.oldPassword());
 
-        if(!userCredentials.getPassword().equals(requestOldPassword)) {
-            throw new AccessDeniedException("Passwords do not match");
+        if(!passwordEncoder.matches(request.oldPassword(), userCredentials.getPassword())) {
+            throw new BadRequestException("Passwords do not match");
         }
         userCredentials.setPassword(passwordEncoder.encode(request.newPassword()));
     }

@@ -22,6 +22,13 @@ public class ApiExceptionHandler {
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<String> illegalState(IllegalStateException illegalState) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(illegalState.getMessage());
+
+
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<String> badRequest(BadRequestException badRequest) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(badRequest.getMessage());
     }
 
 }

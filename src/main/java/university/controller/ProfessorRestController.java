@@ -1,6 +1,7 @@
 package university.controller;
 
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -41,9 +42,9 @@ public class ProfessorRestController {
         return courseService.getStudentsOfMyCourse(courseId);
     }
 
-    @PutMapping("/me/passowrd")
+    @PutMapping("/me/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updatePassowrd(@RequestBody PasswordChangeRequest request){
+    public void updatePassword(@Valid @RequestBody PasswordChangeRequest request){
         passwordService.userRequestPasswordModification(request);
     }
 

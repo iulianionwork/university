@@ -101,13 +101,12 @@ public class StudentService{
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteStudent(Long studentId){
-        Student student = studentRepository.findById(studentId)
+        UserCredentials studentUser = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new NotFoundException("Student not found: " + studentId));
-
-            student.setGroup(null);
-            student.getCourses().clear();
-
-        studentRepository.deleteById(studentId);
+        Student student = studentUser.getStudent();
+        student.getCourses().clear();
+        userRepository.delete(studentUser);
+        studentRepository.delete(student);
     }
 
 }

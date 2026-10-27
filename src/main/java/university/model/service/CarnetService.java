@@ -26,6 +26,10 @@ public class CarnetService {
     public CarnetResponse issueCarnet(Long studentId){
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new NotFoundException("Student not found: " + studentId));
+
+        if(student.getCarnet() != null){
+            throw new IllegalStateException("Student already has a carnet!");
+        }
         Carnet carnet = new Carnet(student);
         carnetRepository.save(carnet);
 
@@ -36,7 +40,8 @@ public class CarnetService {
     @PreAuthorize("hasRole('STUDENT')")
     public CarnetResponse myCarnet(){
         Student student = userService.getStudent();
-        Carnet carnet = carnetRepository.findCarnetByStudentId(student.getId());
+        Carnet carnet = carnetRepository.findCarnetByStudentId(student.getId())
+                .orElseThrow(() -> new NotFoundException("You don't have a carnet yet!"));
 
         return carnetMapper.toDto(carnet);
     }

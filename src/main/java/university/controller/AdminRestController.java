@@ -177,7 +177,7 @@ public class AdminRestController {
 
     }
 
-    @PutMapping("/professor/{professorId}")
+    @PutMapping("/professors/{professorId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void professorUpdate(@PathVariable Long professorId, @RequestBody UpdateProfessorRequest request) {
         professorService.updateProfessor(professorId, request);
@@ -189,7 +189,7 @@ public class AdminRestController {
         studentService.deleteStudent(studentId);
     }
 
-    @DeleteMapping("/professor/{professorId}")
+    @DeleteMapping("/professors/{professorId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProfessor(@PathVariable Long professorId) {
         professorService.deleteProfessor(professorId);

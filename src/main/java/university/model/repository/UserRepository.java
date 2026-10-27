@@ -22,6 +22,7 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
             SELECT u FROM UserCredentials u
             JOIN FETCH u.student s
             LEFT JOIN FETCH  s.group
+            LEFT JOIN FETCH s.carnet
             """)
     List<UserCredentials> findAllStudents();
 
@@ -31,6 +32,7 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
     @Query("""
             SELECT u FROM UserCredentials u
             JOIN FETCH u.student s
+            LEFT JOIN FETCH s.carnet
             JOIN FETCH  s.group g
                         WHERE g.id = :groupId
             """)
@@ -40,6 +42,7 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
             SELECT u FROM UserCredentials u
             JOIN FETCH u.student s
             LEFT JOIN FETCH  s.group
+            LEFT JOIN FETCH  s.carnet
             JOIN s.courses c
             WHERE c.id = :courseId
             """)
@@ -48,6 +51,7 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
     @Query("""
             SELECT u FROM UserCredentials u
             JOIN FETCH u.student s
+            LEFT JOIN FETCH s.carnet
             WHERE  s.group IS NULL
             """)
     List<UserCredentials> getStudentsWithoutGroup();
@@ -56,11 +60,12 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
         SELECT u
         FROM UserCredentials u
         JOIN FETCH u.student s
+        LEFT JOIN FETCH s.carnet
         WHERE s.carnet IS NULL
         """)
     List<UserCredentials> getStudentsWithoutCarnet();
 
 
-
-
+    Optional<UserCredentials> findByStudentId(Long studentId);
+    Optional<UserCredentials> findByProfessorId(Long studentId);
 }

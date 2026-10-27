@@ -8,12 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.professor.CreateProfessorRequest;
 import university.controller.dto.professor.ProfessorResponse;
 import university.controller.dto.professor.UpdateProfessorRequest;
-import university.controller.dto.student.UpdateStudentRequest;
 import university.controller.mapper.ProfessorMapper;
 import university.exception.NotFoundException;
 import university.model.entity.Professor;
 import university.model.entity.Role;
-import university.model.entity.Student;
 import university.model.entity.UserCredentials;
 import university.model.repository.ProfessorRepository;
 import university.model.repository.UserRepository;
@@ -76,13 +74,16 @@ public class ProfessorService{
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteProfessor(Long professorId){
-        Professor professor = professorRepository.findById(professorId)
+        UserCredentials professorUser = userRepository.findByProfessorId(professorId)
                 .orElseThrow(() -> new NotFoundException("Professor not found: " + professorId));
+        Professor professor = professorUser.getProfessor();
+
 
         if(!professor.getCourses().isEmpty()){
-            throw new IllegalStateException("Professor have courses!");
+            throw new IllegalStateException("Professor still has courses!");
         }
 
+        userRepository.delete(professorUser);
         professorRepository.delete(professor);
     }
 }

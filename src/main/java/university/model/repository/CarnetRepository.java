@@ -6,4 +6,5 @@ import university.model.entity.Carnet;
 
 @Repository
 public interface CarnetRepository  extends JpaRepository<Carnet, Long> {
+    Carnet findCarnetByStudentId(Long studentId);
 }

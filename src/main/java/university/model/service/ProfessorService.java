@@ -7,9 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.professor.CreateProfessorRequest;
 import university.controller.dto.professor.ProfessorResponse;
+import university.controller.dto.professor.UpdateProfessorRequest;
+import university.controller.dto.student.UpdateStudentRequest;
 import university.controller.mapper.ProfessorMapper;
+import university.exception.NotFoundException;
 import university.model.entity.Professor;
 import university.model.entity.Role;
+import university.model.entity.Student;
 import university.model.entity.UserCredentials;
 import university.model.repository.ProfessorRepository;
 import university.model.repository.UserRepository;
@@ -57,5 +61,28 @@ public class ProfessorService{
         return userRepository.findAllProfessors().stream()
                 .map(professorMapper::toDto)
                 .toList();
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public void updateProfessor(Long professorId, UpdateProfessorRequest request){
+        Professor professor = professorRepository.findById(professorId)
+                .orElseThrow(() -> new NotFoundException("Professor not found: " + professorId));
+
+        professorMapper.updateEntity(request, professor);
+        professorRepository.save(professor);
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteProfessor(Long professorId){
+        Professor professor = professorRepository.findById(professorId)
+                .orElseThrow(() -> new NotFoundException("Professor not found: " + professorId));
+
+        if(!professor.getCourses().isEmpty()){
+            throw new IllegalStateException("Professor have courses!");
+        }
+
+        professorRepository.delete(professor);
     }
 }

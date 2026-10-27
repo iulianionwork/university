@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Getter;
 
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.Date;
 
 @Entity
@@ -16,16 +18,24 @@ public class Carnet {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    @Column(name = "issue_date", nullable = false)
-    private Date issueDate;
+    @Column(name = "student_number", unique = true, nullable = false)
+    private String studentCode;
 
-    @OneToOne(fetch =  FetchType.EAGER)
+    @Column(name = "issue_date", nullable = false)
+    private LocalDate issueDate;
+
+    @OneToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "student")
     private Student student;
 
     public Carnet(Student student) {
         this.student = student;
-        this.issueDate = new Date();
+        this.issueDate = LocalDate.now();
+        this.studentCode = studentCodeGenerator();
+    }
+
+    private String studentCodeGenerator(){
+        return "STU-" + Year.now().getValue() + "-" + student.getId();
     }
 
 }

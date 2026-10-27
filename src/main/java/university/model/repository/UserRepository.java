@@ -52,6 +52,14 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
             """)
     List<UserCredentials> getStudentsWithoutGroup();
 
+    @Query("""
+        SELECT u
+        FROM UserCredentials u
+        JOIN FETCH u.student s
+        WHERE s.carnet IS NULL
+        """)
+    List<UserCredentials> getStudentsWithoutCarnet();
+
 
 
 

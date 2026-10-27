@@ -22,6 +22,11 @@ public class Student {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @OneToOne(mappedBy = "student",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true)
+    private Carnet carnet;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "university_group")
     private Group group;

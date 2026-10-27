@@ -7,12 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.student.CreateStudentRequest;
 import university.controller.dto.student.StudentResponse;
+import university.controller.dto.student.UpdateStudentRequest;
 import university.controller.mapper.StudentMapper;
 import university.exception.NotFoundException;
-import university.model.entity.Group;
-import university.model.entity.Role;
-import university.model.entity.Student;
-import university.model.entity.UserCredentials;
+import university.model.entity.*;
+import university.model.repository.CarnetRepository;
 import university.model.repository.GroupRepository;
 import university.model.repository.StudentRepository;
 import university.model.repository.UserRepository;
@@ -28,6 +27,7 @@ public class StudentService{
     private final UserRepository userRepository;
     private final StudentMapper studentMapper;
     private final GroupRepository groupRepository;
+    private final CarnetRepository carnetRepository;
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
@@ -78,6 +78,36 @@ public class StudentService{
         return userRepository.getStudentsWithoutGroup().stream()
                 .map(studentMapper::toDto)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<StudentResponse> getStudentsWithoutCarnet(){
+        return userRepository.getStudentsWithoutCarnet().stream()
+                .map(studentMapper::toDto)
+                .toList();
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public void updateStudent(Long studentId, UpdateStudentRequest request){
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new NotFoundException("Student not found: " + studentId));
+
+        studentMapper.updateEntity(request, student);
+        studentRepository.save(student);
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteStudent(Long studentId){
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new NotFoundException("Student not found: " + studentId));
+
+            student.setGroup(null);
+            student.getCourses().clear();
+
+        studentRepository.deleteById(studentId);
     }
 
 }

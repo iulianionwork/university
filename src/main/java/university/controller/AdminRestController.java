@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import university.controller.dto.carnet.CarnetResponse;
 import university.controller.dto.course.CourseRequest;
 import university.controller.dto.course.CourseResponse;
 import university.controller.dto.course.CourseUpdate;
@@ -11,8 +12,10 @@ import university.controller.dto.group.GroupRequest;
 import university.controller.dto.group.GroupResponse;
 import university.controller.dto.professor.CreateProfessorRequest;
 import university.controller.dto.professor.ProfessorResponse;
+import university.controller.dto.professor.UpdateProfessorRequest;
 import university.controller.dto.student.CreateStudentRequest;
 import university.controller.dto.student.StudentResponse;
+import university.controller.dto.student.UpdateStudentRequest;
 import university.model.service.*;
 
 import java.util.List;
@@ -27,6 +30,7 @@ public class AdminRestController {
     private final FakeDataService fakeDataService;
     private final GroupService groupService;
     private final CourseService courseService;
+    private final CarnetService carnetService;
 
 
     @PostMapping("/students")
@@ -152,6 +156,43 @@ public class AdminRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCourse(@PathVariable Long courseId) {
         courseService.deleteCourse(courseId);
+    }
+
+    @PostMapping("/students/{studentId}/carnet")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CarnetResponse createCarnet(@PathVariable Long studentId) {
+        return carnetService.issueCarnet(studentId);
+    }
+
+    @GetMapping("/students/without-carnet")
+    @ResponseStatus(HttpStatus.OK)
+    public List<StudentResponse> getStudentsWithoutCarnet() {
+        return studentService.getStudentsWithoutCarnet();
+    }
+
+    @PutMapping("/students/{studentId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void studentUpdate(@PathVariable Long studentId, @RequestBody UpdateStudentRequest request) {
+        studentService.updateStudent(studentId, request);
+
+    }
+
+    @PutMapping("/professor/{professorId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void professorUpdate(@PathVariable Long professorId, @RequestBody UpdateProfessorRequest request) {
+        professorService.updateProfessor(professorId, request);
+    }
+
+    @DeleteMapping("/students/{studentId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteStudent(@PathVariable Long studentId) {
+        studentService.deleteStudent(studentId);
+    }
+
+    @DeleteMapping("/professor/{professorId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProfessor(@PathVariable Long professorId) {
+        professorService.deleteProfessor(professorId);
     }
 
 

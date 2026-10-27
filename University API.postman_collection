@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "2286507c-71d4-4ef0-ade9-4b67c85ba561",
-    "name": "My Collection",
+    "name": "University API",
     "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "59060204",
@@ -275,12 +275,10 @@
                           }
                         },
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/students",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/students",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
@@ -320,12 +318,10 @@
                           }
                         },
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/professors",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/professors",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
@@ -370,17 +366,15 @@
                           }
                         },
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/students/{studentId}",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/students/{{studentId}}",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
                             "students",
-                            "{studentId}"
+                            "{{studentId}}"
                           ]
                         }
                       },
@@ -425,6 +419,34 @@
                             "admin",
                             "professors",
                             "{{professorId}}"
+                          ]
+                        }
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "Update User Password",
+                      "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"email\":\"hyman.botsford1@student.com\",\r\n    \"newPassword\":\"student2\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/admin/password-reset",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "admin",
+                            "password-reset"
                           ]
                         }
                       },
@@ -684,12 +706,10 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/courses",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/courses",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
@@ -705,17 +725,15 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                          "raw": "http://localhost:8080/api/admin/courses/{courseId}/students",
-                          "protocol": "http",
+                          "raw": "{{baseUrl}}/api/admin/courses/{{courseId}}/students",
                           "host": [
-                            "localhost"
+                            "{{baseUrl}}"
                           ],
-                          "port": "8080",
                           "path": [
                             "api",
                             "admin",
                             "courses",
-                            "{courseId}",
+                            "{{courseId}}",
                             "students"
                           ]
                         }
@@ -1078,6 +1096,54 @@
                   "response": []
                 }
               ]
+            },
+            {
+              "name": "PUT",
+              "item": []
+            },
+            {
+              "name": "Update Password",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "wilmer.leffler10@student.com",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "student",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"oldPassowrd\":\"student\",\r\n    \"newPassword\":\"student2\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/student/me/password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "student",
+                    "me",
+                    "password"
+                  ]
+                }
+              },
+              "response": []
             }
           ]
         },
@@ -1186,6 +1252,55 @@
                         "courses",
                         "{{courseId}}",
                         "students"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "PUT",
+              "item": [
+                {
+                  "name": "Update Passowrd",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "password",
+                          "value": "professor",
+                          "type": "string"
+                        },
+                        {
+                          "key": "username",
+                          "value": "lore.block10@professor.com",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "PUT",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"oldPassowrd\": \"professor\",\r\n    \"newPassword\": \"professor2\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/professor/me/password",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "professor",
+                        "me",
+                        "password"
                       ]
                     }
                   },

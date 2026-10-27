@@ -73,11 +73,13 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public StudentResponse getCurrentStudent(){
+        getStudent();
         return studentMapper.toDto(get());
     }
 
     @Transactional
     public ProfessorResponse getCurrentProfessor(){
+        getProfessor();
         return professorMapper.toDto(get());
     }
 

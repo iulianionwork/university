@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import university.controller.dto.course.CourseRequest;
 import university.controller.dto.course.CourseResponse;
 import university.controller.dto.course.CourseUpdate;
-import university.controller.dto.professor.ProfessorResponse;
 import university.controller.dto.student.StudentResponse;
 import university.controller.mapper.CourseMapper;
 import university.controller.mapper.StudentMapper;
@@ -34,8 +33,6 @@ public class CourseService{
     private final CourseMapper courseMapper;
     private final StudentMapper studentMapper;
     private final UserService userService;
-
-
 
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('ADMIN')")
@@ -63,7 +60,6 @@ public class CourseService{
         return courseMapper.toDto(course);
     }
 
-
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public CourseResponse createCourse(CourseRequest request) {
@@ -76,7 +72,6 @@ public class CourseService{
 
     }
 
-
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public void updateCourseProfessor(CourseUpdate courseUpdate, Long courseId) {
@@ -87,9 +82,7 @@ public class CourseService{
                 .orElseThrow(() -> new NotFoundException("Professor not found: " + courseUpdate.professorId()));
 
         course.setProfessor(professor);
-        courseRepository.save(course);
     }
-
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
@@ -110,7 +103,6 @@ public class CourseService{
         student.setCourses(courses);
     }
 
-
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public void unenrollStudentToCourse(Long courseId, Long studentId) {
@@ -125,7 +117,6 @@ public class CourseService{
         student.setCourses(courses);
 
     }
-
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
@@ -150,7 +141,6 @@ public class CourseService{
                 .map(courseMapper::toDto)
                 .toList();
     }
-
 
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('ADMIN')")
@@ -178,8 +168,6 @@ public class CourseService{
                 .map(studentMapper::toDto)
                 .toList();
     }
-
-
 
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('STUDENT')")

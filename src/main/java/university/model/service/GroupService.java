@@ -32,17 +32,6 @@ public class GroupService {
         return groupMapper.toDto(group);
     }
 
-    @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
-    public GroupResponse updateGroup(GroupRequest dto, Long groupId) {
-        Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new NotFoundException("Group not found: " + groupId));
-
-        group.setGroupName(dto.groupName());
-        return groupMapper.toDto(group);
-
-    }
-
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('ADMIN')")
     public List<GroupResponse> getGroups() {
@@ -61,7 +50,6 @@ public class GroupService {
         return userRepository.getStudentsByGroupId(groupId).stream()
                 .map(studentMapper::toDto)
                 .toList();
-
     }
 
 

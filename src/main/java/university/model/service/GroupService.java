@@ -11,6 +11,7 @@ import university.controller.mapper.GroupMapper;
 import university.controller.mapper.StudentMapper;
 import university.exception.NotFoundException;
 import university.model.entity.Group;
+import university.model.entity.Student;
 import university.model.repository.GroupRepository;
 import university.model.repository.UserRepository;
 
@@ -58,7 +59,9 @@ public class GroupService {
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new NotFoundException("Group not found: " + groupId));
 
-        group.getStudents().clear();
+        for(Student student : group.getStudents()){
+            student.setGroup(null);
+        }
         groupRepository.delete(group);
     }
 

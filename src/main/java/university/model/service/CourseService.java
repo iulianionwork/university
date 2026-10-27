@@ -124,7 +124,9 @@ public class CourseService{
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Course not found: " + id));
 
-        course.getStudents().clear();
+        for(Student student : course.getStudents()){
+            student.getCourses().remove(course);
+        }
 
         courseRepository.delete(course);
 

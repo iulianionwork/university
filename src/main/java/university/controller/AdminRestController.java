@@ -10,6 +10,8 @@ import university.controller.dto.course.CourseResponse;
 import university.controller.dto.course.CourseUpdate;
 import university.controller.dto.group.GroupRequest;
 import university.controller.dto.group.GroupResponse;
+import university.controller.dto.password.PasswordChangeRequest;
+import university.controller.dto.password.PasswordModifyRequest;
 import university.controller.dto.professor.CreateProfessorRequest;
 import university.controller.dto.professor.ProfessorResponse;
 import university.controller.dto.professor.UpdateProfessorRequest;
@@ -31,6 +33,7 @@ public class AdminRestController {
     private final GroupService groupService;
     private final CourseService courseService;
     private final CarnetService carnetService;
+    private final PasswordService passwordService;
 
 
     @PostMapping("/students")
@@ -199,6 +202,12 @@ public class AdminRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteGroup(@PathVariable Long groupId) {
         groupService.deleteGroup(groupId);
+    }
+
+    @PutMapping("/password-reset")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void changePassowrd(@Valid @RequestBody PasswordModifyRequest request) {
+        passwordService.adminRequestPasswordChange(request);
     }
 
 

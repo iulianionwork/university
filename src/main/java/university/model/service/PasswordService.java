@@ -1,0 +1,43 @@
+package university.model.service;
+
+import lombok.AllArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import university.controller.dto.password.PasswordChangeRequest;
+import university.controller.dto.password.PasswordModifyRequest;
+import university.exception.NotFoundException;
+import university.model.entity.UserCredentials;
+import university.model.repository.UserRepository;
+
+@AllArgsConstructor
+@Service
+public class PasswordService {
+
+
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+
+    @Transactional
+    public void userRequestPasswordModification(PasswordChangeRequest request) {
+        UserCredentials userCredentials = userService.get();
+        String requestOldPassword =  passwordEncoder.encode(request.oldPassword());
+
+        if(!userCredentials.getPassword().equals(requestOldPassword)) {
+            throw new AccessDeniedException("Passwords do not match");
+        }
+        userCredentials.setPassword(passwordEncoder.encode(request.newPassword()));
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public void adminRequestPasswordChange(PasswordModifyRequest request) {
+        UserCredentials userCredentials = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new NotFoundException("User with email: " + request.email() + " not found"));
+
+        userCredentials.setPassword(passwordEncoder.encode(request.newPassword()));
+    }
+}

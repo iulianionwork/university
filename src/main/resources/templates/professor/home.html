@@ -5,10 +5,12 @@
     <title>Profesor Home</title>
 </head>
 <body>
-<a th:href="@{/logout}">Logout</a>
+
 <h1 th:text="'Bun venit,' + ${me.firstName()} + ' ' + ${me.lastName()}">Bun venit!</h1>
 <p>Email: <span th:text="${me.email}"></span></p>
 <p>Departament: <span th:text="${me.department()}"></span></p>
+
+<a th:href="@{/logout}">Logout</a>
 
 <h2>Cursurile mele</h2>
 <p th:if="${courses.isEmpty()}">Nu ai cursuri.</p>

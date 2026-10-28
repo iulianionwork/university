@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import university.model.service.CourseService;
-import university.model.service.ProfessorService;
 import university.model.service.UserService;
 
 @Controller

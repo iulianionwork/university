@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text ="${courseName}"></title>
+    <title>Studenti inrolati</title>
 </head>
 <body>
 
-<h2>Studentii mei</h2>
+<h2 th:text="${courseName}"></h2>
+<h3>Studenti:</h3>
 <p th:if="${students.isEmpty()}">Nu ai studenti.</p>
 <table th:unless="${students.isEmpty()}">
     <tr><th>Email</th><th>Nume</th><th>Prenume</th><th>Grupa</th></tr>
@@ -18,5 +19,6 @@
     </tr>
 </table>
 
+<a th:href="@{'/professor/home'}"><- Inapoi</a>
 </body>
 </html>

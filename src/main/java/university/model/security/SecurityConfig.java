@@ -18,15 +18,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
 
         http.formLogin( form-> {
-            form.loginPage("/login");
             form.usernameParameter("email");
             form.defaultSuccessUrl("/home", true);
                 })
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(autz -> {
-                    autz.requestMatchers("/api/admin/**").hasRole("ADMIN");
-                    autz.requestMatchers("/api/professor/**").hasRole("PROFESSOR");
-                    autz.requestMatchers("/api/student/**").hasRole("STUDENT");
+                    autz.requestMatchers("/api/admin/**", "/admin/**").hasRole("ADMIN");
+                    autz.requestMatchers("/api/professor/**", "/professor/**").hasRole("PROFESSOR");
+                    autz.requestMatchers("/api/student/**", "/student/**").hasRole("STUDENT");
                     autz.requestMatchers("/login","/css/**","/js/**").permitAll();
                     autz.anyRequest().authenticated();
                         })

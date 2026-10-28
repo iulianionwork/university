@@ -1,7 +1,6 @@
 package university.model.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -10,15 +9,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import university.controller.dto.professor.ProfessorResponse;
-import university.controller.dto.student.StudentResponse;
-import university.controller.mapper.ProfessorMapper;
-import university.controller.mapper.StudentMapper;
+import university.dto.professor.ProfessorResponse;
+import university.dto.student.StudentResponse;
+import university.mapper.ProfessorMapper;
+import university.mapper.StudentMapper;
 import university.exception.NotFoundException;
 import university.model.entity.Professor;
 import university.model.entity.Student;
 import university.model.entity.UserCredentials;
-import university.model.repository.StudentRepository;
 import university.model.repository.UserRepository;
 
 @AllArgsConstructor

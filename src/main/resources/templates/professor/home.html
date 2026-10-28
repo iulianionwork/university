@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profesor Home</title>
+</head>
+<body>
+<a th:href="@{/logout}">Logout</a>
+<h1 th:text="'Bun venit,' + ${me.firstName()} + ' ' + ${me.lastName()}">Bun venit!</h1>
+<p>Email: <span th:text="${me.email}"></span></p>
+<p>Departament: <span th:text="${me.department()}"></span></p>
+
+<h2>Cursurile mele</h2>
+<p th:if="${courses.isEmpty()}">Nu ai cursuri.</p>
+<table th:unless="${courses.isEmpty()}">
+    <tr><th>Curs</th><th>Lista Studenti</th></tr>
+    <tr th:each="curs : ${courses}">
+        <td th:text="${curs.courseName()}"></td>
+        <td>
+            <a class="btn" th:href="@{/professor/courses/{courseId}/students(courseId=${curs.id()})}">Studenti</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

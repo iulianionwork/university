@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Home</title>
+</head>
+<body>
+<a th:href="@{/logout}">Logout</a>
+<h1 th:text="'Bun venit,' + ${me.firstName()} + ' ' + ${me.lastName()}">Bun venit!</h1>
+<p>Email: <span th:text="${me.email}"></span></p>
+<p>Grupa: <span th:text="${me.groupName()} ?: 'fara grupa'"></span></p>
+
+<h2>Carnet</h2>
+<p th:if="${carnet == null}">Nu ai carnet inca.</p>
+<p th:if="${carnet != null}">
+    Nr. <b th:text="${carnet.carnetNumber}"></b>,
+    emis la <span th:text="${#temporals.format(carnet.issueDate(),'dd.MM.yyyy')}"></span>,
+</p>
+
+<h2>Cursurile mele</h2>
+<p th:if="${courses.isEmpty()}">Nu esti inscris la nici un curs.</p>
+<table th:unless="${courses.isEmpty()}">
+    <tr><th>Curs</th><th>Profesor</th></tr>
+    <tr th:each="curs : ${courses}">
+        <td th:text="${curs.courseName()}"></td>
+        <td th:text="${curs.professorName()}"></td>
+    </tr>
+</table>
+</body>
+</html>

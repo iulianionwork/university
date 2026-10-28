@@ -1,13 +1,12 @@
 package university.model.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import university.controller.dto.password.PasswordChangeRequest;
-import university.controller.dto.password.PasswordModifyRequest;
+import university.dto.password.PasswordChangeRequest;
+import university.dto.password.PasswordModifyRequest;
 import university.exception.BadRequestException;
 import university.exception.NotFoundException;
 import university.model.entity.UserCredentials;

@@ -7,9 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
-import university.controller.dto.professor.CreateProfessorRequest;
-import university.controller.dto.professor.ProfessorResponse;
-import university.controller.dto.student.StudentResponse;
 import university.model.entity.Course;
 import university.model.entity.Professor;
 import university.model.entity.Role;
@@ -18,9 +15,6 @@ import university.model.repository.CourseRepository;
 import university.model.repository.ProfessorRepository;
 import university.model.repository.UserRepository;
 import university.model.service.CourseService;
-import university.model.service.ProfessorService;
-import university.model.service.StudentService;
-import university.model.service.UserService;
 
 import static org.junit.jupiter.api.Assertions.*;
 

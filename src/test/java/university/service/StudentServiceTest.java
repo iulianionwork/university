@@ -1,15 +1,13 @@
 package university.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
-import university.controller.dto.student.CreateStudentRequest;
-import university.controller.dto.student.StudentResponse;
+import university.dto.student.CreateStudentRequest;
+import university.dto.student.StudentResponse;
 import university.exception.NotFoundException;
 import university.model.service.StudentService;
 
@@ -23,22 +21,14 @@ public class StudentServiceTest {
     @Autowired
     private StudentService studentService;
 
-    StudentResponse studentResponse;
-
-    @BeforeEach
-    public void setUp(){
-        studentResponse = studentService.create(new CreateStudentRequest(
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void createStudentAndVerifyTheGeneratedEmail() {
+        StudentResponse studentResponse = studentService.create(new CreateStudentRequest(
                 "Ion",
                 "Popescu",
                 "student"
         ));
-    }
-
-
-    @Test
-    @WithMockUser(roles = "ADMIN")
-    void createStudentAndVerifyTheGeneratedEmail() {
-
 
         assertEquals("ion.popescu"+ studentResponse.id() + "@student.com", studentResponse.email());
     }
@@ -54,7 +44,7 @@ public class StudentServiceTest {
     @WithMockUser(roles = "STUDENT")
     void createAsAStudent() {
         assertThrows(AuthorizationDeniedException.class, () -> studentService.create(new CreateStudentRequest(
-                "Ion",
+                "Vasile",
                 "Popescu",
                 "student"
         )));

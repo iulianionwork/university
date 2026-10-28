@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text ="${courseName}"></title>
+</head>
+<body>
+
+<h2>Studentii mei</h2>
+<p th:if="${students.isEmpty()}">Nu ai studenti.</p>
+<table th:unless="${students.isEmpty()}">
+    <tr><th>Email</th><th>Nume</th><th>Prenume</th><th>Grupa</th></tr>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.email()}"></td>
+        <td th:text="${student.firstName()}"></td>
+        <td th:text="${student.lastName()}"></td>
+        <td th:text="${student.groupName()}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

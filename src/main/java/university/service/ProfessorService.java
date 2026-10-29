@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import university.dto.professor.CreateProfessorRequest;
 import university.dto.professor.ProfessorResponse;
 import university.dto.professor.UpdateProfessorRequest;
-import university.dto.student.StudentResponse;
 import university.mapper.ProfessorMapper;
 import university.exception.NotFoundException;
 import university.model.Professor;
@@ -16,7 +15,7 @@ import university.model.Role;
 import university.model.UserCredentials;
 import university.repository.ProfessorRepository;
 import university.repository.UserRepository;
-import university.service.component.EmailConfig;
+import university.service.component.EmailGenerator;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class ProfessorService{
     private final ProfessorRepository professorRepository;
     private final UserRepository userRepository;
     private final ProfessorMapper professorMapper;
-    private final EmailConfig  emailConfig;
+    private final EmailGenerator emailGenerator;
 
 
     @Transactional
@@ -38,7 +37,7 @@ public class ProfessorService{
         Professor professor = professorMapper.toEntity(request);
         professorRepository.save(professor);
 
-        String email = emailConfig.emailConstruct(
+        String email = emailGenerator.generate(
                 professor.getFirstName(),
                 professor.getLastName(),
                 professor.getId(),

@@ -37,19 +37,19 @@ public class PasswordPageController {
     @GetMapping("admin/students/{studentId}/password")
     public String passwordStudentPage(@PathVariable Long studentId, Model model){
         model.addAttribute("email", studentService.getStudentById(studentId).email());
-        return "adminChangePasswordForm";
+        return "admin/changePasswordForm";
     }
 
     @PostMapping("admin/password")
     public String adminChangePassword(@RequestParam String email, @RequestParam String newPassword) {
         PasswordModifyRequest passwordModifyRequest = new PasswordModifyRequest(email, newPassword);
         passwordService.adminRequestPasswordChange(passwordModifyRequest);
-        return "redirect:/logout";
+        return "redirect:admin/home";
     }
 
     @GetMapping("admin/professors/{professorId}/password")
     public String passwordProfessorPage(@PathVariable Long professorId, Model model){
         model.addAttribute("email", professorService.getProfessorById(professorId).email());
-        return "adminChangePasswordForm";
+        return "admin/changePasswordForm";
     }
 }

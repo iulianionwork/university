@@ -7,7 +7,7 @@
 <body>
 
 <h1 th:text="'Professor: ' + ${professor.firstName()} + ' ' + ${professor.lastName()}"></h1>
-<a th:href="@{{professorId}/password(professorId=${professor.id()})}">Modifica parola</a>
+<a th:href="@{/admin/professors/{professorId}/password(professorId=${professor.id()})}">Modifica parola</a>
 <p>Email: <span th:text="${professor.email}"></span></p>
 <p>Departament: <span th:text="${professor.department()}"></span></p>
 

@@ -9,6 +9,7 @@ import university.dto.carnet.CarnetResponse;
 import university.dto.course.CourseResponse;
 import university.dto.password.PasswordChangeRequest;
 import university.dto.student.StudentResponse;
+import university.exception.NotFoundException;
 import university.service.CarnetService;
 import university.service.CourseService;
 import university.service.PasswordService;
@@ -41,7 +42,8 @@ public class StudentRestController {
     @GetMapping("/carnet")
     @ResponseStatus(HttpStatus.OK)
     public CarnetResponse getCarnet() {
-        return carnetService.myCarnet().orElse(null);
+        return carnetService.myCarnet()
+                .orElseThrow(()-> new NotFoundException("You don.t have a carnet yet!"));
     }
 
     @PutMapping("/me/password")

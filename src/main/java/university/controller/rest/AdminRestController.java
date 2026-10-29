@@ -192,7 +192,7 @@ public class AdminRestController {
 
     @PutMapping("/password-reset")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void changePassowrd(@Valid @RequestBody PasswordModifyRequest request) {
+    public void changePassword(@Valid @RequestBody PasswordModifyRequest request) {
         passwordService.adminRequestPasswordChange(request);
     }
 

@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1 th:text="'Student: ' + ${student.firstName()} + ' ' + ${student.lastName()}"></h1>
-<a th:href="@{{studentId}/password(studentId=${student.id()})}">Modifica parola</a>
+<a th:href="@{/admin/students/{studentId}/password(studentId=${student.id()})}">Modifica parola</a>
 <p>Email: <span th:text="${student.email}"></span></p>
 <p>Grupa: <span th:text="${student.groupName()} ?: 'fara grupa'"></span></p>
 
@@ -26,7 +26,7 @@
         <td th:text="${curs.courseName()}"></td>
         <td th:text="${curs.professorName()}"></td>
         <td>
-            <a class="btn" th:href="@{/admin/course/{courseId}(courseId=${curs.id()})}">Detalii Curs</a>
+            <a class="btn" th:href="@{/admin/courses/{courseId}(courseId=${curs.id()})}">Detalii Curs</a>
         </td>
     </tr>
 </table>

@@ -17,7 +17,7 @@ import university.model.UserCredentials;
 import university.repository.GroupRepository;
 import university.repository.StudentRepository;
 import university.repository.UserRepository;
-import university.service.component.EmailConfig;
+import university.service.component.EmailGenerator;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class StudentService{
     private final UserRepository userRepository;
     private final StudentMapper studentMapper;
     private final GroupRepository groupRepository;
-    private final EmailConfig  emailConfig;
+    private final EmailGenerator emailGenerator;
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
@@ -39,7 +39,7 @@ public class StudentService{
         Student student = studentMapper.toEntity(request);
         studentRepository.save(student);
 
-        String email = emailConfig.emailConstruct(
+        String email = emailGenerator.generate(
                 student.getFirstName(),
                 student.getLastName(),
                 student.getId(),

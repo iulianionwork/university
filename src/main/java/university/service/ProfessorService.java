@@ -16,6 +16,7 @@ import university.model.Role;
 import university.model.UserCredentials;
 import university.repository.ProfessorRepository;
 import university.repository.UserRepository;
+import university.service.component.EmailConfig;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class ProfessorService{
     private final ProfessorRepository professorRepository;
     private final UserRepository userRepository;
     private final ProfessorMapper professorMapper;
+    private final EmailConfig  emailConfig;
 
 
     @Transactional
@@ -36,22 +38,24 @@ public class ProfessorService{
         Professor professor = professorMapper.toEntity(request);
         professorRepository.save(professor);
 
-        String email = emailConstruct(professor.getFirstName(), professor.getLastName(), professor.getId());
+        String email = emailConfig.emailConstruct(
+                professor.getFirstName(),
+                professor.getLastName(),
+                professor.getId(),
+                "@professor.com");
 
-        UserCredentials professorUser = new UserCredentials();
-        professorUser.setEmail(email);
-        professorUser.setPassword(passwordEncoder.encode(request.password()));
-        professorUser.setRole(Role.PROFESSOR);
+        UserCredentials professorUser = new UserCredentials(
+                email,
+                passwordEncoder.encode(request.password()),
+                Role.PROFESSOR);
+
         professorUser.setProfessor(professor);
         userRepository.save(professorUser);
 
         return professorMapper.toDto(professorUser);
     }
 
-    private String emailConstruct(String firstName, String lastName, long id){
-        String cleanName = (firstName + "." +lastName).toLowerCase().replaceAll("[^a-z.]","");
-        return cleanName + id + "@professor.com";
-    }
+
 
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('ADMIN')")
@@ -91,8 +95,8 @@ public class ProfessorService{
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public ProfessorResponse getProfessorById(Long professorId){
-        UserCredentials studentUser = userRepository.findByProfessorId(professorId)
+        UserCredentials professorUser = userRepository.findByProfessorId(professorId)
                 .orElseThrow(() -> new NotFoundException("Professor not found: " + professorId));
-        return professorMapper.toDto(studentUser);
+        return professorMapper.toDto(professorUser);
     }
 }

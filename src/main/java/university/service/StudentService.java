@@ -14,10 +14,10 @@ import university.model.Group;
 import university.model.Role;
 import university.model.Student;
 import university.model.UserCredentials;
-import university.repository.CarnetRepository;
 import university.repository.GroupRepository;
 import university.repository.StudentRepository;
 import university.repository.UserRepository;
+import university.service.component.EmailConfig;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class StudentService{
     private final UserRepository userRepository;
     private final StudentMapper studentMapper;
     private final GroupRepository groupRepository;
-    private final CarnetRepository carnetRepository;
+    private final EmailConfig  emailConfig;
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
@@ -39,21 +39,21 @@ public class StudentService{
         Student student = studentMapper.toEntity(request);
         studentRepository.save(student);
 
-        String email = emailConstruct(student.getFirstName(), student.getLastName(), student.getId());
+        String email = emailConfig.emailConstruct(
+                student.getFirstName(),
+                student.getLastName(),
+                student.getId(),
+                "@student.com");
 
-        UserCredentials studentUser = new UserCredentials();
-        studentUser.setEmail(email);
-        studentUser.setPassword(passwordEncoder.encode(request.password()));
-        studentUser.setRole(Role.STUDENT);
+        UserCredentials studentUser = new UserCredentials(
+                email,
+                passwordEncoder.encode(request.password()),
+                Role.STUDENT);
+
         studentUser.setStudent(student);
         userRepository.save(studentUser);
 
         return studentMapper.toDto(studentUser);
-    }
-
-    private String emailConstruct(String firstName, String lastName, long id){
-        String cleanName = (firstName + "." +lastName).toLowerCase().replaceAll("[^a-z.]","");
-        return cleanName + id + "@student.com";
     }
 
     @Transactional(readOnly = true)

@@ -14,7 +14,7 @@
         <td th:text="${course.courseName()}"></td>
         <td th:text="${course.professorName()}"></td>
         <td>
-            <a class="btn" th:href="@{/admin/course/{courseId}(courseId=${course.id()})}">Detalii</a>
+            <a class="btn" th:href="@{/admin/courses/{courseId}(courseId=${course.id()})}">Detalii</a>
         </td>
     </tr>
 </table>

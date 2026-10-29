@@ -14,7 +14,7 @@
         <td th:text="${group.groupName()}"></td>
         <td th:text="${group.studentCount()}"></td>
         <td>
-            <a class="btn" th:href="@{/admin/group/{groupId}(groupId=${group.id()})}">Detalii</a>
+            <a class="btn" th:href="@{/admin/groups/{groupId}(groupId=${group.id()})}">Detalii</a>
         </td>
     </tr>
 </table>

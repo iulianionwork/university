@@ -50,16 +50,6 @@ public class CourseService{
         return courseMapper.toDto(course);
     }
 
-    @Transactional(readOnly = true)
-    @PreAuthorize("hasRole('ADMIN')")
-    public CourseResponse getCourseByName(String name) {
-        Course course = courseRepository.getCourseByCourseName(name);
-        if(course == null){
-            throw new NotFoundException("Course not found: " + name);
-        }
-        return courseMapper.toDto(course);
-    }
-
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public CourseResponse createCourse(CourseRequest request) {
@@ -105,7 +95,7 @@ public class CourseService{
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public void unenrollStudentToCourse(Long courseId, Long studentId) {
+    public void unenrollStudentFromCourse(Long courseId, Long studentId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new NotFoundException("Course not found: " + courseId));
 

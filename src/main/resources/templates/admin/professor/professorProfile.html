@@ -7,8 +7,10 @@
 <body>
 
 <h1 th:text="'Professor: ' + ${professor.firstName()} + ' ' + ${professor.lastName()}"></h1>
+<a th:href="@{{professorId}/password(professorId=${professor.id()})}">Modifica parola</a>
 <p>Email: <span th:text="${professor.email}"></span></p>
 <p>Departament: <span th:text="${professor.department()}"></span></p>
+
 
 <h2>Cursurile profresorului:</h2>
 <p th:if="${courses.isEmpty()}">Nu are cursuri.</p>

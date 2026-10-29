@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
-import university.model.entity.Course;
+import university.model.Course;
 import university.model.Professor;
 import university.model.Role;
 import university.model.UserCredentials;

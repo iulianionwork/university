@@ -16,7 +16,7 @@
         <td th:text="${student.lastName()}"></td>
         <td th:text="${student.groupName()}"></td>
         <td>
-            <a class="btn" th:href="@{/admin/student/{studentId}(studentId=${student.id()})}">Profil</a>
+            <a class="btn" th:href="@{/admin/students/{studentId}(studentId=${student.id()})}">Profil</a>
         </td>
     </tr>
 </table>

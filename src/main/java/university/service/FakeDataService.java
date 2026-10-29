@@ -36,7 +36,7 @@ public class FakeDataService {
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public void generateMateProfessor(int count) {
+    public void generateProfessor(String department, int count) {
         Faker faker = new Faker();
 
         for (int i = 1; i <= count; i++) {
@@ -46,48 +46,11 @@ public class FakeDataService {
                             faker.name().firstName(),
                             faker.name().lastName(),
                             "professor",
-                            "Mathematica"
+                            department
                     );
 
             professorService.create(request);
         }
     }
 
-    @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
-    public void generateInfoProfessor(int count) {
-        Faker faker = new Faker();
-
-        for (int i = 1; i <= count; i++) {
-
-            CreateProfessorRequest request =
-                    new CreateProfessorRequest(
-                            faker.name().firstName(),
-                            faker.name().lastName(),
-                            "professor",
-                            "Informatica"
-                    );
-
-            professorService.create(request);
-        }
-    }
-
-    @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
-    public void generateItalianProfessor(int count) {
-        Faker faker = new Faker();
-
-        for (int i = 1; i <= count; i++) {
-
-            CreateProfessorRequest request =
-                    new CreateProfessorRequest(
-                            faker.name().firstName(),
-                            faker.name().lastName(),
-                            "professor",
-                            "Italian"
-                    );
-
-            professorService.create(request);
-        }
-    }
 }

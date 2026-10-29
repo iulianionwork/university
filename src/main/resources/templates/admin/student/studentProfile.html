@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1 th:text="'Student: ' + ${student.firstName()} + ' ' + ${student.lastName()}"></h1>
+<a th:href="@{{studentId}/password(studentId=${student.id()})}">Modifica parola</a>
 <p>Email: <span th:text="${student.email}"></span></p>
 <p>Grupa: <span th:text="${student.groupName()} ?: 'fara grupa'"></span></p>
 

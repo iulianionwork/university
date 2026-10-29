@@ -16,7 +16,7 @@
         <td th:text="${professor.lastName()}"></td>
         <td th:text="${professor.department()}"></td>
         <td>
-            <a class="btn" th:href="@{/admin/professor/{professorId}(professorId=${professor.id()})}">Profil</a>
+            <a class="btn" th:href="@{/admin/professors/{professorId}(professorId=${professor.id()})}">Profil</a>
         </td>
     </tr>
 </table>

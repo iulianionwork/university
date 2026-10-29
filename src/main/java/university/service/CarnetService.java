@@ -12,6 +12,8 @@ import university.model.Student;
 import university.repository.CarnetRepository;
 import university.repository.StudentRepository;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class CarnetService {
@@ -38,23 +40,15 @@ public class CarnetService {
 
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('STUDENT')")
-    public CarnetResponse myCarnet(){
+    public Optional<CarnetResponse> myCarnet(){
         Student student = userService.getStudent();
-        Carnet carnet = carnetRepository.findCarnetByStudentId(student.getId())
-                .orElseThrow(() -> new NotFoundException("You don't have a carnet yet!"));
-
-        return carnetMapper.toDto(carnet);
+        return carnetRepository.findCarnetByStudentId(student.getId()).map(carnetMapper::toDto);
     }
 
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('ADMIN')")
-    public CarnetResponse findCarnetByStudentId(Long studentId){
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new NotFoundException("Student not found: " + studentId));
-
-        Carnet carnet = carnetRepository.findCarnetByStudentId(student.getId())
-                .orElseThrow(() -> new NotFoundException("Student don't have a carnet yet!"));
-
-        return carnetMapper.toDto(carnet);
+    public Optional<CarnetResponse> findCarnetByStudentId(Long studentId){
+        return carnetRepository.findCarnetByStudentId(studentId)
+                .map(carnetMapper::toDto);
     }
 }

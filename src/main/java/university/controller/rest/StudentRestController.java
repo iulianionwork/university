@@ -41,7 +41,7 @@ public class StudentRestController {
     @GetMapping("/carnet")
     @ResponseStatus(HttpStatus.OK)
     public CarnetResponse getCarnet() {
-        return carnetService.myCarnet();
+        return carnetService.myCarnet().orElse(null);
     }
 
     @PutMapping("/me/password")

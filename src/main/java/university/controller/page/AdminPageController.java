@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import university.exception.NotFoundException;
 import university.service.*;
 
 @Controller
@@ -40,16 +39,11 @@ public class AdminPageController {
         return "admin/student/studentsList";
     }
 
-    @GetMapping("/student/{studentId}")
+    @GetMapping("/students/{studentId}")
     public String studentProfile(@PathVariable Long studentId, Model model) {
         model.addAttribute("student", studentService.getStudentById(studentId));
-            model.addAttribute("courses", courseService.getCoursesOfStudentById(studentId));
-
-        try{
-            model.addAttribute("carnet", carnetService.findCarnetByStudentId(studentId));
-        } catch(NotFoundException e){
-            model.addAttribute("carnet", null);
-        }
+        model.addAttribute("courses", courseService.getCoursesOfStudentById(studentId));
+        model.addAttribute("carnet", carnetService.findCarnetByStudentId(studentId).orElse(null));
         return "admin/student/studentProfile";
     }
 
@@ -60,7 +54,7 @@ public class AdminPageController {
         return "admin/professor/professorsList";
     }
 
-    @GetMapping("/professor/{professorId}")
+    @GetMapping("/professors/{professorId}")
     public String professorProfile(@PathVariable Long professorId, Model model) {
         model.addAttribute("professor", professorService.getProfessorById(professorId));
         model.addAttribute("courses", courseService.getCoursesOfProfessorById(professorId));
@@ -73,7 +67,7 @@ public class AdminPageController {
         return "admin/group/groupsList";
     }
 
-    @GetMapping("/group/{groupId}")
+    @GetMapping("/groups/{groupId}")
     public String groupProfile(@PathVariable Long groupId, Model model) {
         model.addAttribute("students", groupService.getStudentsFromGroup(groupId));
         model.addAttribute("groupName", groupService.getGroupById(groupId).groupName());
@@ -87,7 +81,7 @@ public class AdminPageController {
         return "admin/course/courseList";
     }
 
-    @GetMapping("/course/{courseId}")
+    @GetMapping("/courses/{courseId}")
     public String courseProfile(@PathVariable Long courseId, Model model) {
         model.addAttribute("course", courseService.getCourseById(courseId));
         model.addAttribute("students", courseService.getStudentsByCourseId(courseId));

@@ -67,26 +67,13 @@ public class AdminRestController {
         return "Generated " + count + " students";
     }
 
-     @PostMapping("/fake/professors/mate/{count}")
+     @PostMapping("/fake/professors/{department}/{count}")
     @ResponseStatus(HttpStatus.CREATED)
-    public String generateMateProfessor(@PathVariable int count) {
-         fakeDataService.generateMateProfessor(count);
-        return "Generated " + count + " mate professors";
+    public String generateMateProfessor(@PathVariable String department , @PathVariable int count) {
+         fakeDataService.generateProfessor(department, count);
+        return "Generated " + count + " " + department + " professors";
     }
 
-    @PostMapping("/fake/professors/info/{count}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public String generateInfoProfessor(@PathVariable int count) {
-        fakeDataService.generateInfoProfessor(count);
-        return "Generated " + count + " info professors";
-    }
-
-    @PostMapping("/fake/professors/italy/{count}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public String generateItalyProfessor(@PathVariable int count) {
-        fakeDataService.generateItalianProfessor(count);
-        return "Generated " + count + " italy professors";
-    }
 
     @PostMapping("/groups")
     @ResponseStatus(HttpStatus.CREATED)
@@ -151,7 +138,7 @@ public class AdminRestController {
     @DeleteMapping("/courses/{courseId}/students/{studentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void unenrollStudent(@PathVariable Long courseId, @PathVariable Long studentId) {
-        courseService.unenrollStudentToCourse(courseId, studentId);
+        courseService.unenrollStudentFromCourse(courseId, studentId);
     }
 
     @DeleteMapping("/courses/{courseId}")

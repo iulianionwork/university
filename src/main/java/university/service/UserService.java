@@ -1,6 +1,7 @@
 package university.service;
 
 import lombok.AllArgsConstructor;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -30,6 +31,7 @@ public class UserService implements UserDetailsService {
 
 
     @Override
+    @NullMarked
     public UserDetails loadUserByUsername(String email) {
 
         UserCredentials user = userRepository.findByEmail(email)
@@ -71,13 +73,11 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public StudentResponse getCurrentStudent(){
-        getStudent();
         return studentMapper.toDto(get());
     }
 
     @Transactional
     public ProfessorResponse getCurrentProfessor(){
-        getProfessor();
         return professorMapper.toDto(get());
     }
 

@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component;
 import university.dto.professor.CreateProfessorRequest;
 import university.dto.professor.ProfessorResponse;
 import university.dto.professor.UpdateProfessorRequest;
-import university.model.entity.Professor;
-import university.model.entity.UserCredentials;
+import university.model.Professor;
+import university.model.UserCredentials;
 
 import java.util.Optional;
 

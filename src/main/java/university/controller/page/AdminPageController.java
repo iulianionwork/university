@@ -1,16 +1,13 @@
 package university.controller.page;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import university.model.service.CourseService;
-import university.model.service.GroupService;
-import university.model.service.ProfessorService;
-import university.model.service.StudentService;
+import university.exception.NotFoundException;
+import university.service.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -22,6 +19,7 @@ public class AdminPageController {
     private final ProfessorService professorService;
     private final GroupService groupService;
     private final CourseService courseService;
+    private final CarnetService carnetService;
 
 
     @GetMapping("/home")
@@ -33,5 +31,66 @@ public class AdminPageController {
         model.addAttribute("courseCount", courseService.getAllCourses().size());
 
         return "admin/home";
+    }
+
+    @GetMapping("/students")
+    public String students(Model model) {
+        model.addAttribute("students", studentService.getStudents());
+
+        return "admin/student/studentsList";
+    }
+
+    @GetMapping("/student/{studentId}")
+    public String studentProfile(@PathVariable Long studentId, Model model) {
+        model.addAttribute("student", studentService.getStudentById(studentId));
+            model.addAttribute("courses", courseService.getCoursesOfStudentById(studentId));
+
+        try{
+            model.addAttribute("carnet", carnetService.findCarnetByStudentId(studentId));
+        } catch(NotFoundException e){
+            model.addAttribute("carnet", null);
+        }
+        return "admin/student/studentProfile";
+    }
+
+    @GetMapping("/professors")
+    public String professors(Model model) {
+        model.addAttribute("professors", professorService.getProfessors());
+
+        return "admin/professor/professorsList";
+    }
+
+    @GetMapping("/professor/{professorId}")
+    public String professorProfile(@PathVariable Long professorId, Model model) {
+        model.addAttribute("professor", professorService.getProfessorById(professorId));
+        model.addAttribute("courses", courseService.getCoursesOfProfessorById(professorId));
+        return "admin/professor/professorProfile";
+    }
+
+    @GetMapping("/groups")
+    public String groups(Model model) {
+        model.addAttribute("groups", groupService.getGroups());
+        return "admin/group/groupsList";
+    }
+
+    @GetMapping("/group/{groupId}")
+    public String groupProfile(@PathVariable Long groupId, Model model) {
+        model.addAttribute("students", groupService.getStudentsFromGroup(groupId));
+        model.addAttribute("groupName", groupService.getGroupById(groupId).groupName());
+
+        return "admin/group/groupProfile";
+    }
+
+    @GetMapping("/courses")
+    public String courses(Model model) {
+        model.addAttribute("courses", courseService.getAllCourses());
+        return "admin/course/courseList";
+    }
+
+    @GetMapping("/course/{courseId}")
+    public String courseProfile(@PathVariable Long courseId, Model model) {
+        model.addAttribute("course", courseService.getCourseById(courseId));
+        model.addAttribute("students", courseService.getStudentsByCourseId(courseId));
+        return "admin/course/courseProfile";
     }
 }

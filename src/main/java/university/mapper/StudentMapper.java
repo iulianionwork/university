@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import university.dto.student.CreateStudentRequest;
 import university.dto.student.StudentResponse;
 import university.dto.student.UpdateStudentRequest;
-import university.model.entity.Student;
-import university.model.entity.UserCredentials;
+import university.model.Student;
+import university.model.UserCredentials;
 
 import java.util.Optional;
 

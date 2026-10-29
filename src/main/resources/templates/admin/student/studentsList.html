@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+</head>
+<body>
+
+<h3>Studenti:</h3>
+<p th:if="${students.isEmpty()}">Nu sunt studenti in baza.</p>
+<table th:unless="${students.isEmpty()}">
+    <tr><th>Email</th><th>Nume</th><th>Prenume</th><th>Grupa</th><th>Detali Student</th></tr>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.email()}"></td>
+        <td th:text="${student.firstName()}"></td>
+        <td th:text="${student.lastName()}"></td>
+        <td th:text="${student.groupName()}"></td>
+        <td>
+            <a class="btn" th:href="@{/admin/student/{studentId}(studentId=${student.id()})}">Profil</a>
+        </td>
+    </tr>
+</table>
+
+<a th:href="@{'/admin/home'}"><- Inapoi</a>
+</body>
+
+</html>

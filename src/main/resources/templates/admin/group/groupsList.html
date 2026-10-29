@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Groups</title>
+</head>
+<body>
+
+<h3>Grupuri:</h3>
+<p th:if="${groups.isEmpty()}">Nu sunt grupuri in baza.</p>
+<table th:unless="${groups.isEmpty()}">
+    <tr><th>Nume Grupa</th><th>Numar Studenti</th><th>Profil Grupa</th></tr>
+    <tr th:each="group : ${groups}">
+        <td th:text="${group.groupName()}"></td>
+        <td th:text="${group.studentCount()}"></td>
+        <td>
+            <a class="btn" th:href="@{/admin/group/{groupId}(groupId=${group.id()})}">Detalii</a>
+        </td>
+    </tr>
+</table>
+
+<a th:href="@{'/admin/home'}"><- Inapoi</a>
+</body>
+
+</html>

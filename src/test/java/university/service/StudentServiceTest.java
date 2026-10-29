@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import university.dto.student.CreateStudentRequest;
 import university.dto.student.StudentResponse;
 import university.exception.NotFoundException;
-import university.model.service.StudentService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

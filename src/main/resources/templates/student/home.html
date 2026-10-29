@@ -9,6 +9,7 @@
 <h1 th:text="'Bun venit,' + ${me.firstName()} + ' ' + ${me.lastName()}">Bun venit!</h1>
 <p>Email: <span th:text="${me.email}"></span></p>
 <p>Grupa: <span th:text="${me.groupName()} ?: 'fara grupa'"></span></p>
+<a th:href="@{/student/password}">Change Password</a>
 
 <h2>Carnet</h2>
 <p th:if="${carnet == null}">Nu ai carnet inca.</p>

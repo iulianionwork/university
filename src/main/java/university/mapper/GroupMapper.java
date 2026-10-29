@@ -3,7 +3,7 @@ package university.mapper;
 import org.springframework.stereotype.Component;
 import university.dto.group.GroupRequest;
 import university.dto.group.GroupResponse;
-import university.model.entity.Group;
+import university.model.Group;
 
 @Component
 public class GroupMapper implements ToDtoMapper<Group, GroupResponse>, ToEntityMapper<GroupRequest, Group>, UpdateMapper<GroupRequest, Group> {

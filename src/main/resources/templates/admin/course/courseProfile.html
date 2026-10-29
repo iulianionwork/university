@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Group Profile</title>
+</head>
+<body>
+<h1 th:text="'Curs: ' + ${course.courseName()}"></h1>
+<h2 th:text="'Profesor: ' + ${course.professorName()}"></h2>
+
+<h2>Lista studenti:</h2>
+<p th:if="${students.isEmpty()}">Nu sunt studenti inrolati in acest curs</p>
+<table th:unless="${students.isEmpty()}">
+    <tr><th>Email</th><th>Nume</th><th>Prenume</th><th>Detalii Student</th></tr>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.email()}"></td>
+        <td th:text="${student.firstName()}"></td>
+        <td th:text="${student.lastName()}"></td>
+        <td>
+            <a class="btn" th:href="@{/admin/student/{studentId}(studentId=${student.id()})}">Profil</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

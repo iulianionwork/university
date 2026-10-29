@@ -9,10 +9,10 @@
 <h1>Admin Panel</h1>
 
 <ul>
-    <li>Studenti: <b th:text="${studentCount}">0</b></li>
-    <li>Profesori: <b th:text="${professorCount}">0</b></li>
-    <li>Grupe: <b th:text="${groupCount}">0</b></li>
-    <li>Cursuri: <b th:text="${courseCount}">0</b></li>
+    <a th:href="@{/admin/students}" >Studenti:</a> <b th:text="${studentCount}">0</b>
+    <br> <a th:href="@{/admin/professors}"> Profesori:</a> <b th:text="${professorCount}">0</b>
+    <br> <a th:href="@{/admin/groups}"> Grupe:</a> <b th:text="${groupCount}">0</b>
+    <br> <a th:href="@{/admin/courses}"> Cursuri:</a> <b th:text="${courseCount}">0</b>
 </ul>
 </body>
 </html>

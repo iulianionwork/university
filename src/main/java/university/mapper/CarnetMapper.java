@@ -2,7 +2,7 @@ package university.mapper;
 
 import org.springframework.stereotype.Component;
 import university.dto.carnet.CarnetResponse;
-import university.model.entity.Carnet;
+import university.model.Carnet;
 
 @Component
 public class CarnetMapper implements ToDtoMapper<Carnet, CarnetResponse> {

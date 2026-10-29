@@ -8,13 +8,12 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 import university.model.entity.Course;
-import university.model.entity.Professor;
-import university.model.entity.Role;
-import university.model.entity.UserCredentials;
-import university.model.repository.CourseRepository;
-import university.model.repository.ProfessorRepository;
-import university.model.repository.UserRepository;
-import university.model.service.CourseService;
+import university.model.Professor;
+import university.model.Role;
+import university.model.UserCredentials;
+import university.repository.CourseRepository;
+import university.repository.ProfessorRepository;
+import university.repository.UserRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 

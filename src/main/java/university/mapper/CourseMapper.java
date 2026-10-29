@@ -2,8 +2,8 @@ package university.mapper;
 
 import org.springframework.stereotype.Component;
 import university.dto.course.CourseResponse;
-import university.model.entity.Course;
-import university.model.entity.Professor;
+import university.model.Course;
+import university.model.Professor;
 
 @Component
 public class CourseMapper implements ToDtoMapper<Course, CourseResponse>  {

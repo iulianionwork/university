@@ -1,0 +1,60 @@
+package university.service;
+
+import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import university.dto.carnet.CarnetResponse;
+import university.mapper.CarnetMapper;
+import university.exception.NotFoundException;
+import university.model.Carnet;
+import university.model.Student;
+import university.repository.CarnetRepository;
+import university.repository.StudentRepository;
+
+@Service
+@AllArgsConstructor
+public class CarnetService {
+
+    private final CarnetRepository carnetRepository;
+    private final StudentRepository studentRepository;
+    private final CarnetMapper carnetMapper;
+    private final UserService userService;
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public CarnetResponse issueCarnet(Long studentId){
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new NotFoundException("Student not found: " + studentId));
+
+        if(student.getCarnet() != null){
+            throw new IllegalStateException("Student already has a carnet!");
+        }
+        Carnet carnet = new Carnet(student);
+        carnetRepository.save(carnet);
+
+        return carnetMapper.toDto(carnet);
+    }
+
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('STUDENT')")
+    public CarnetResponse myCarnet(){
+        Student student = userService.getStudent();
+        Carnet carnet = carnetRepository.findCarnetByStudentId(student.getId())
+                .orElseThrow(() -> new NotFoundException("You don't have a carnet yet!"));
+
+        return carnetMapper.toDto(carnet);
+    }
+
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN')")
+    public CarnetResponse findCarnetByStudentId(Long studentId){
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new NotFoundException("Student not found: " + studentId));
+
+        Carnet carnet = carnetRepository.findCarnetByStudentId(student.getId())
+                .orElseThrow(() -> new NotFoundException("Student don't have a carnet yet!"));
+
+        return carnetMapper.toDto(carnet);
+    }
+}

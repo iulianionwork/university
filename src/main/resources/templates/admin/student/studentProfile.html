@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Profile</title>
+</head>
+<body>
+<h1 th:text="'Student: ' + ${student.firstName()} + ' ' + ${student.lastName()}"></h1>
+<p>Email: <span th:text="${student.email}"></span></p>
+<p>Grupa: <span th:text="${student.groupName()} ?: 'fara grupa'"></span></p>
+
+<h2>Carnet</h2>
+<p th:if="${carnet == null}"> Nu are carnet inca</p>
+<p th:if="${carnet != null}">
+    Nr. <b th:text="${carnet.carnetNumber}"></b>,
+    emis la <span th:text="${#temporals.format(carnet.issueDate(),'dd.MM.yyyy')}"></span>,
+</p>
+
+<h2>Cursurile studentului</h2>
+<p th:if="${courses.isEmpty()}">Nu este inscris la nici un curs.</p>
+<table th:unless="${courses.isEmpty()}">
+    <tr><th>Curs</th><th>Profesor</th><th>Detalii Curs</th></tr>
+    <tr th:each="curs : ${courses}">
+        <td th:text="${curs.courseName()}"></td>
+        <td th:text="${curs.professorName()}"></td>
+        <td>
+            <a class="btn" th:href="@{/admin/course/{courseId}(courseId=${curs.id()})}">Detalii Curs</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

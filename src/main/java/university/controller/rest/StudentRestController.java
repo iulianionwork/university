@@ -9,10 +9,10 @@ import university.dto.carnet.CarnetResponse;
 import university.dto.course.CourseResponse;
 import university.dto.password.PasswordChangeRequest;
 import university.dto.student.StudentResponse;
-import university.model.service.CarnetService;
-import university.model.service.CourseService;
-import university.model.service.PasswordService;
-import university.model.service.UserService;
+import university.service.CarnetService;
+import university.service.CourseService;
+import university.service.PasswordService;
+import university.service.UserService;
 
 import java.util.List;
 

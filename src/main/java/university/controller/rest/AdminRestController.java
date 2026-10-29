@@ -17,7 +17,7 @@ import university.dto.professor.UpdateProfessorRequest;
 import university.dto.student.CreateStudentRequest;
 import university.dto.student.StudentResponse;
 import university.dto.student.UpdateStudentRequest;
-import university.model.service.*;
+import university.service.*;
 
 import java.util.List;
 

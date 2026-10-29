@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+</head>
+<body>
+
+<h3>Cursuri:</h3>
+<p th:if="${courses.isEmpty()}">Nu sunt cursuri in baza.</p>
+<table th:unless="${courses.isEmpty()}">
+    <tr><th>Nume Curs</th><th>Nume Profesor</th><th>Detalii Curs</th></tr>
+    <tr th:each="course : ${courses}">
+        <td th:text="${course.courseName()}"></td>
+        <td th:text="${course.professorName()}"></td>
+        <td>
+            <a class="btn" th:href="@{/admin/course/{courseId}(courseId=${course.id()})}">Detalii</a>
+        </td>
+    </tr>
+</table>
+
+<a th:href="@{'/admin/home'}"><- Inapoi</a>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Professors</title>
+</head>
+<body>
+
+    <h3>Profesori:</h3>
+<p th:if="${professors.isEmpty()}">Nu sunt profesori in baza.</p>
+<table th:unless="${professors.isEmpty()}">
+    <tr><th>Email</th><th>Nume</th><th>Prenume</th><th>Departamentul</th><th>Detalii Profesor</th></tr>
+    <tr th:each="professor : ${professors}">
+        <td th:text="${professor.email()}"></td>
+        <td th:text="${professor.firstName()}"></td>
+        <td th:text="${professor.lastName()}"></td>
+        <td th:text="${professor.department()}"></td>
+        <td>
+            <a class="btn" th:href="@{/admin/professor/{professorId}(professorId=${professor.id()})}">Profil</a>
+        </td>
+    </tr>
+</table>
+
+<a th:href="@{'/admin/home'}"><- Inapoi</a>
+</body>
+
+</html>

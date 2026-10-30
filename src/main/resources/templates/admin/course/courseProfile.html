@@ -23,7 +23,7 @@
             </form>
         </td>
         <td>
-            <form method="post" th:action="@{/admin/courses/{courseId}/students/{studentId}(courseId=${course.id()}, studentId=${student.id()})}">
+            <form method="post" th:action="@{/admin/courses/{courseId}/students/{studentId}/unenroll(courseId=${course.id()}, studentId=${student.id()})}">
                 <input class="btn" type="submit" name="delete" value="Unenroll">
             </form>
         </td>

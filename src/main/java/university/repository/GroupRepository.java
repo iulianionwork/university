@@ -12,7 +12,7 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 
     @Query("""
     SELECT g FROM Group g
-    JOIN FETCH g.students
+    LEFT JOIN FETCH g.students
     """)
     @Override
   List<Group> findAll();

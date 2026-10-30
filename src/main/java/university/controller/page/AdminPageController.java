@@ -86,9 +86,9 @@ public class AdminPageController {
         return "admin/course/courseProfile";
     }
 
-    @PostMapping("/courses/{courseId}/students/{studentId}")
+    @PostMapping("/courses/{courseId}/students/{studentId}/unenroll")
     public String unenrollStudent(@PathVariable Long courseId, @PathVariable Long studentId) {
-        courseService.unenrollStudentFromCourse(studentId, courseId);
+        courseService.unenrollStudentFromCourse(courseId, studentId);
         return "redirect:/admin/courses/{courseId}";
     }
 

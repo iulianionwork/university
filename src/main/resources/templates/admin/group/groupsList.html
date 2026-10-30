@@ -5,6 +5,9 @@
     <title>Groups</title>
 </head>
 <body>
+<form method="get" th:action="@{'/admin/home'}">
+    <input class="btn" type="submit" name="back" value="Inapoi">
+</form>
 
 <h3>Grupuri:</h3>
 <p th:if="${groups.isEmpty()}">Nu sunt grupuri in baza.</p>
@@ -19,7 +22,6 @@
     </tr>
 </table>
 
-<a th:href="@{'/admin/home'}"><- Inapoi</a>
 </body>
 
 </html>

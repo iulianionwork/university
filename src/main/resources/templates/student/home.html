@@ -5,7 +5,9 @@
     <title>Student Home</title>
 </head>
 <body>
-<a th:href="@{/logout}">Logout</a>
+<form method="get" th:action="@{/logout}">
+    <input class="btn" type="submit" name="logout" value="Logout">
+</form>
 <h1 th:text="'Bun venit,' + ${me.firstName()} + ' ' + ${me.lastName()}">Bun venit!</h1>
 <p>Email: <span th:text="${me.email}"></span></p>
 <p>Grupa: <span th:text="${me.groupName()} ?: 'fara grupa'"></span></p>

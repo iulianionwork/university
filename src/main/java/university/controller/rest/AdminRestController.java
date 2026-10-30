@@ -69,7 +69,7 @@ public class AdminRestController {
 
      @PostMapping("/fake/professors/{department}/{count}")
     @ResponseStatus(HttpStatus.CREATED)
-    public String generateMateProfessor(@PathVariable String department , @PathVariable int count) {
+    public String generateProfessor(@PathVariable String department , @PathVariable int count) {
          fakeDataService.generateProfessor(department, count);
         return "Generated " + count + " " + department + " professors";
     }

@@ -1,4 +1,4 @@
-package university.config;
+package university.service.component;
 
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -10,13 +10,13 @@ import university.repository.UserRepository;
 
 @AllArgsConstructor
 @Component
-public class AdminInitializer implements CommandLineRunner {
+public class AdminGenerator implements CommandLineRunner {
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args){
         if(userRepository.existsByRole(Role.ADMIN)){
             return;
         }

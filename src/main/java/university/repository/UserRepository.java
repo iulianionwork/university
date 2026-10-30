@@ -14,9 +14,9 @@ import java.util.Optional;
 public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
 
     Optional<UserCredentials> findByEmail(String email);
-    boolean existsByEmail(String email);
     boolean existsByRole(Role role);
-    List<UserCredentials> findByRole(Role role);
+    Optional<UserCredentials> findByStudentId(Long studentId);
+    Optional<UserCredentials> findByProfessorId(Long professorId);
 
     @Query("""
             SELECT u FROM UserCredentials u
@@ -26,7 +26,10 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
             """)
     List<UserCredentials> findAllStudents();
 
-    @Query("SELECT u FROM UserCredentials u JOIN FETCH u.professor")
+    @Query("""
+            SELECT u FROM UserCredentials u
+            JOIN FETCH u.professor
+            """)
     List<UserCredentials> findAllProfessors();
 
     @Query("""
@@ -66,6 +69,5 @@ public interface UserRepository  extends JpaRepository<UserCredentials, Long> {
     List<UserCredentials> getStudentsWithoutCarnet();
 
 
-    Optional<UserCredentials> findByStudentId(Long studentId);
-    Optional<UserCredentials> findByProfessorId(Long professorId);
+
 }

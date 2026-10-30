@@ -12,13 +12,20 @@
 <h2>Lista studenti:</h2>
 <p th:if="${students.isEmpty()}">Nu sunt studenti inrolati in acest curs</p>
 <table th:unless="${students.isEmpty()}">
-    <tr><th>Email</th><th>Nume</th><th>Prenume</th><th>Detalii Student</th></tr>
+    <tr><th>Email</th><th>Nume</th><th>Prenume</th><th>Detalii Student</th><th>Unenroll Student</th></tr>
     <tr th:each="student : ${students}">
         <td th:text="${student.email()}"></td>
         <td th:text="${student.firstName()}"></td>
         <td th:text="${student.lastName()}"></td>
         <td>
-            <a class="btn" th:href="@{/admin/students/{studentId}(studentId=${student.id()})}">Profil</a>
+            <form method="get" th:action="@{/admin/students/{studentId}(studentId=${student.id()})}">
+                <input class="btn" type="submit" name="profile" value="Profile">
+            </form>
+        </td>
+        <td>
+            <form method="post" th:action="@{/admin/courses/{courseId}/students/{studentId}(courseId=${course.id()}, studentId=${student.id()})}">
+                <input class="btn" type="submit" name="delete" value="Unenroll">
+            </form>
         </td>
     </tr>
 </table>

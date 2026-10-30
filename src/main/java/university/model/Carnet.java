@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.Year;
 
 @Entity
 @Table(name = "carnet")
@@ -27,14 +26,12 @@ public class Carnet {
     @JoinColumn(name = "student")
     private Student student;
 
-    public Carnet(Student student) {
+    public Carnet(Student student, String studentCode) {
         this.student = student;
         this.issueDate = LocalDate.now();
-        this.studentCode = studentCodeGenerator();
+        this.studentCode = studentCode;
     }
 
-    private String studentCodeGenerator(){
-        return "STU-" + Year.now().getValue() + "-" + student.getId();
-    }
+
 
 }

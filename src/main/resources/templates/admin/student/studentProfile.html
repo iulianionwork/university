@@ -7,16 +7,22 @@
 </head>
 <body>
 <h1 th:text="'Student: ' + ${student.firstName()} + ' ' + ${student.lastName()}"></h1>
-<a th:href="@{/admin/students/{studentId}/password(studentId=${student.id()})}">Modifica parola</a>
-<p>Email: <span th:text="${student.email}"></span></p>
-<p>Grupa: <span th:text="${student.groupName()} ?: 'fara grupa'"></span></p>
+<form method="get" th:action="@{/admin/students/{studentId}/password(studentId=${student.id()})}">
+    <input class="btn" type="submit" name="password" value="Modifica parola">
+</form>
+<p><span>Email:</span>  <b th:text="${student.email}"></b></p>
+<p><span>Grupa:</span> <b th:text="${student.groupName()} ?: 'fara grupa'"></b></p>
 
-<h2>Carnet</h2>
-<p th:if="${carnet == null}"> Nu are carnet inca</p>
-<p th:if="${carnet != null}">
-    Nr. <b th:text="${carnet.carnetNumber}"></b>,
-    emis la <span th:text="${#temporals.format(carnet.issueDate(),'dd.MM.yyyy')}"></span>,
-</p>
+<p th:if="${carnet != null}"><span>Carnet: </span> Nr. <b th:text="${carnet.carnetNumber}"></b>,
+    emis la <b th:text="${#temporals.format(carnet.issueDate(),'dd.MM.yyyy')}"></b> </p>
+
+<div th:if="${carnet == null}">
+    <p>Carnet: null</p>
+<form method="post" th:action="@{/admin/students/{studentId}/carnet(studentId=${student.id()})}">
+    <input class="btn" type="submit" name="carnet" value="Emite carnet">
+</form>
+</div>
+
 
 <h2>Cursurile studentului</h2>
 <p th:if="${courses.isEmpty()}">Nu este inscris la nici un curs.</p>
@@ -26,8 +32,11 @@
         <td th:text="${curs.courseName()}"></td>
         <td th:text="${curs.professorName()}"></td>
         <td>
-            <a class="btn" th:href="@{/admin/courses/{courseId}(courseId=${curs.id()})}">Detalii Curs</a>
+            <form method="get" th:action="@{/admin/courses/{courseId}(courseId=${curs.id()})}">
+                <input class="btn" type="submit" name="detalii" value="Detalii curs">
+            </form>
         </td>
+
     </tr>
 </table>
 </body>

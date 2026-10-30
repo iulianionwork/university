@@ -3,9 +3,7 @@ package university.controller.page;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import university.service.*;
 
 @Controller
@@ -87,4 +85,17 @@ public class AdminPageController {
         model.addAttribute("students", courseService.getStudentsByCourseId(courseId));
         return "admin/course/courseProfile";
     }
+
+    @PostMapping("/courses/{courseId}/students/{studentId}")
+    public String unenrollStudent(@PathVariable Long courseId, @PathVariable Long studentId) {
+        courseService.unenrollStudentFromCourse(studentId, courseId);
+        return "redirect:/admin/courses/{courseId}";
+    }
+
+    @PostMapping("/students/{studentId}/carnet")
+    public String createCarnet(@PathVariable Long studentId) {
+        carnetService.issueCarnet(studentId);
+        return "redirect:/admin/students/{studentId}";
+    }
+
 }

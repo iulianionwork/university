@@ -34,20 +34,20 @@ public class PasswordPageController {
         return "redirect:/logout";
     }
 
-    @GetMapping("admin/students/{studentId}/password")
+    @GetMapping("/admin/students/{studentId}/password")
     public String passwordStudentPage(@PathVariable Long studentId, Model model){
         model.addAttribute("email", studentService.getStudentById(studentId).email());
         return "admin/changePasswordForm";
     }
 
-    @PostMapping("admin/password")
+    @PostMapping("/admin/password")
     public String adminChangePassword(@RequestParam String email, @RequestParam String newPassword) {
         PasswordModifyRequest passwordModifyRequest = new PasswordModifyRequest(email, newPassword);
         passwordService.adminRequestPasswordChange(passwordModifyRequest);
-        return "redirect:admin/home";
+        return "redirect:/admin/home";
     }
 
-    @GetMapping("admin/professors/{professorId}/password")
+    @GetMapping("/admin/professors/{professorId}/password")
     public String passwordProfessorPage(@PathVariable Long professorId, Model model){
         model.addAttribute("email", professorService.getProfessorById(professorId).email());
         return "admin/changePasswordForm";

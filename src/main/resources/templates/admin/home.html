@@ -5,7 +5,9 @@
     <title>Admin Home</title>
 </head>
 <body>
-<a th:href="@{/logout}">Logout</a>
+<form method="get" th:action="@{/logout}">
+    <input class="btn" type="submit" name="logout" value="Logout">
+</form>
 <h1>Admin Panel</h1>
 
 <ul>

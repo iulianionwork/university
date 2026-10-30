@@ -5,7 +5,9 @@
     <title>Students</title>
 </head>
 <body>
-
+<form method="get" th:action="@{'/admin/home'}">
+    <input class="btn" type="submit" name="back" value="Inapoi">
+</form>
 <h3>Studenti:</h3>
 <p th:if="${students.isEmpty()}">Nu sunt studenti in baza.</p>
 <table th:unless="${students.isEmpty()}">
@@ -16,12 +18,14 @@
         <td th:text="${student.lastName()}"></td>
         <td th:text="${student.groupName()}"></td>
         <td>
-            <a class="btn" th:href="@{/admin/students/{studentId}(studentId=${student.id()})}">Profil</a>
+            <form method="get" th:action="@{/admin/students/{studentId}(studentId=${student.id()})}">
+                <input class="btn" type="submit" name="profil" value="Profil">
+            </form>
         </td>
     </tr>
 </table>
 
-<a th:href="@{'/admin/home'}"><- Inapoi</a>
+
 </body>
 
 </html>

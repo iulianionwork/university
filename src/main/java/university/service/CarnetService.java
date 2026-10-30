@@ -11,6 +11,7 @@ import university.model.Carnet;
 import university.model.Student;
 import university.repository.CarnetRepository;
 import university.repository.StudentRepository;
+import university.service.component.StudentCodeGenerator;
 
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ public class CarnetService {
     private final StudentRepository studentRepository;
     private final CarnetMapper carnetMapper;
     private final UserService userService;
+    private final StudentCodeGenerator studentCodeGenerator;
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
@@ -32,7 +34,7 @@ public class CarnetService {
         if(student.getCarnet() != null){
             throw new IllegalStateException("Student already has a carnet!");
         }
-        Carnet carnet = new Carnet(student);
+        Carnet carnet = new Carnet(student, studentCodeGenerator.generate(studentId));
         carnetRepository.save(carnet);
 
         return carnetMapper.toDto(carnet);

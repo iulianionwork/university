@@ -5,9 +5,14 @@
     <title>Profesor Profile</title>
 </head>
 <body>
-
+<form method="get" th:action="@{'/admin/professors'}">
+    <input class="btn" type="submit" name="back" value="Inapoi">
+</form>
 <h1 th:text="'Professor: ' + ${professor.firstName()} + ' ' + ${professor.lastName()}"></h1>
-<a th:href="@{/admin/professors/{professorId}/password(professorId=${professor.id()})}">Modifica parola</a>
+<form method="get" th:action="@{/admin/professors/{professorId}/password(professorId=${professor.id()})}">
+    <input class="btn" type="submit" name="passowrd" value="Modifica parola">
+</form>
+
 <p>Email: <span th:text="${professor.email}"></span></p>
 <p>Departament: <span th:text="${professor.department()}"></span></p>
 

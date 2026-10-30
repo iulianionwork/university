@@ -1,7 +1,6 @@
 package university.service;
 
 import lombok.AllArgsConstructor;
-import org.jspecify.annotations.NullMarked;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -31,7 +30,6 @@ public class UserService implements UserDetailsService {
 
 
     @Override
-    @NullMarked
     public UserDetails loadUserByUsername(String email) {
 
         UserCredentials user = userRepository.findByEmail(email)
@@ -45,14 +43,15 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public UserCredentials get(){
+
+    protected UserCredentials get(){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User with email: " + email + " not found"));
     }
 
-    @Transactional
-    public Student getStudent(){
+
+    protected Student getStudent(){
         UserCredentials user = get();
         if(user.getStudent() == null){
             throw new AccessDeniedException("User is not logged as a student");
@@ -61,8 +60,8 @@ public class UserService implements UserDetailsService {
         return user.getStudent();
     }
 
-    @Transactional
-    public Professor getProfessor(){
+
+    protected Professor getProfessor(){
         UserCredentials user = get();
         if(user.getProfessor() == null){
             throw new AccessDeniedException("User is not logged as a professor");
@@ -71,12 +70,12 @@ public class UserService implements UserDetailsService {
         return user.getProfessor();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public StudentResponse getCurrentStudent(){
         return studentMapper.toDto(get());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public ProfessorResponse getCurrentProfessor(){
         return professorMapper.toDto(get());
     }
